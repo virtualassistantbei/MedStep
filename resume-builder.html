@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedStep | Healthcare Resume Builder & Skill Translator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        teal: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            500: '#14b8a6',
+                            600: '#00A896',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        },
+                        ocean: {
+                            500: '#028090',
+                            600: '#026875',
+                            700: '#014f59',
+                        },
+                        coral: {
+                            400: '#ff7b54',
+                            500: '#f95738',
+                            600: '#e03e1a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        @media print {
+            header, footer, nav, .no-print {
+                display: none !important;
+            }
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            .print-only-container {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body class="h-full text-slate-800 font-sans flex flex-col antialiased selection:bg-teal-100 selection:text-teal-800">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- MedStep Brand Logo & Title -->
+                <a href="index.html" class="flex items-center gap-3.5 group">
+                    <div class="relative w-12 h-12 flex-shrink-0 transition-transform group-hover:scale-105">
+                        <!-- MedStep Native Inline SVG Logo -->
+                        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-sm" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- 5 Teal Footprint Toes -->
+                            <ellipse cx="88" cy="22" rx="9" ry="14" fill="#00A896" transform="rotate(-10 88 22)"/>
+                            <ellipse cx="112" cy="29" rx="7.5" ry="11" fill="#028090" transform="rotate(-5 112 29)"/>
+                            <ellipse cx="131" cy="43" rx="6" ry="9" fill="#028090"/>
+                            <ellipse cx="145" cy="61" rx="5" ry="7.5" fill="#014f59"/>
+                            <ellipse cx="154" cy="81" rx="4" ry="6" fill="#014f59"/>
+
+                            <!-- Main Stethoscope Ribbon Loop Footprint -->
+                            <path d="M 72 44 
+                                     C 108 42, 142 75, 134 118 
+                                     C 128 152, 98 180, 80 180 
+                                     C 62 180, 46 158, 54 130 
+                                     C 60 104, 80 88, 80 70 
+                                     C 80 54, 62 50, 46 60 
+                                     C 26 74, 20 104, 28 132 
+                                     C 36 156, 54 174, 70 180" 
+                                  stroke="#028090" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+
+                            <!-- Stethoscope Earpiece/Bell Chestpiece -->
+                            <circle cx="30" cy="82" r="11" fill="#028090" stroke="#FFFFFF" stroke-width="3"/>
+                            <circle cx="30" cy="82" r="5" fill="#00A896"/>
+                            
+                            <!-- Bright Orange Medical Cross -->
+                            <g transform="translate(76, 116)">
+                                <path d="M -7 -20 H 7 V -7 H 20 V 7 H 7 V 20 H -7 V 7 H -20 V -7 H -7 Z" fill="#ff7b54"/>
+                            </g>
+
+                            <!-- Dual Upward Growth Arrows inside Footprint Arch -->
+                            <path d="M 68 102 L 78 88 L 88 102 M 78 88 V 112" stroke="#00A896" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M 88 90 L 98 76 L 108 90 M 98 76 V 100" stroke="#ff7b54" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-black bg-gradient-to-r from-ocean-700 via-teal-600 to-coral-500 bg-clip-text text-transparent tracking-tight">MedStep</span>
+                        <p class="hidden sm:block text-[11px] text-slate-500 font-semibold tracking-tight -mt-0.5">
+                            Helping you take your first step into the medical field.
+                        </p>
+                    </div>
+                </a>
+
+                <!-- Navigation Quick Links -->
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-teal-50 text-slate-700 hover:text-teal-800 border border-slate-200 transition">
+                        <i data-lucide="arrow-left" class="w-4 h-4 text-coral-500"></i>
+                        <span class="hidden sm:inline">Main Platform</span>
+                    </a>
+                    <a href="patient-care-vs-tech-quiz.html" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold bg-teal-50 text-teal-800 border border-teal-200 hover:bg-teal-100 transition shadow-sm">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-coral-500"></i>
+                        <span class="hidden sm:inline">Career Quiz</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+
+        <!-- Hero Banner -->
+        <div class="bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden no-print">
+            <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute right-1/4 top-0 w-48 h-48 bg-coral-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+            <div class="relative z-10 max-w-3xl space-y-3">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-teal-500/20 text-teal-300 border border-teal-500/30">
+                    <i data-lucide="file-text" class="w-3.5 h-3.5 text-coral-400"></i> MedStep Career Toolkit
+                </div>
+                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                    Healthcare Resume Builder & Skill Translator
+                </h1>
+                <p class="text-slate-300 text-sm sm:text-lg leading-relaxed">
+                    Translate prior non-clinical experience (retail, food service, admin) into healthcare terminology, optimize your resume for ATS screening, and measure your job readiness.
+                </p>
+            </div>
+        </div>
+
+        <!-- Tool Navigation Bar -->
+        <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-4 no-print border-b border-slate-200 pb-4">
+            <button onclick="scrollToSection('section-translator')" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-white text-slate-700 hover:bg-teal-50 hover:text-teal-700 border border-slate-200 shadow-sm transition flex items-center gap-2">
+                <i data-lucide="repeat" class="w-4 h-4 text-teal-600"></i>
+                <span>1. Non-Healthcare Skill Translator</span>
+            </button>
+            <button onclick="scrollToSection('section-builder')" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-white text-slate-700 hover:bg-teal-50 hover:text-teal-700 border border-slate-200 shadow-sm transition flex items-center gap-2">
+                <i data-lucide="cpu" class="w-4 h-4 text-coral-500"></i>
+                <span>2. Target Role ATS Keywords & Resume</span>
+            </button>
+            <button onclick="scrollToSection('section-readiness')" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-white text-slate-700 hover:bg-teal-50 hover:text-teal-700 border border-slate-200 shadow-sm transition flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
+                <span>3. Resume Readiness Checker</span>
+            </button>
+        </div>
+
+        <!-- SECTION 1: NON-HEALTHCARE SKILL TRANSLATOR -->
+        <section id="section-translator" class="space-y-6 scroll-mt-24 no-print">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/90 space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+                    <div>
+                        <div class="inline-flex items-center gap-2 text-xs font-bold text-coral-600 bg-coral-50 px-2.5 py-1 rounded-md mb-2 border border-coral-100">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Transferable Skills Engine
+                        </div>
+                        <h2 class="text-2xl font-black text-slate-900">Non-Healthcare Skill Translator</h2>
+                        <p class="text-xs sm:text-sm text-slate-500 mt-1">Convert daily tasks from past service/admin jobs into powerful healthcare bullet points for your resume.</p>
+                    </div>
+                </div>
+
+                <!-- Category Selector Buttons -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Select Your Previous Non-Healthcare Experience:</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5" id="translator-role-buttons">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Translated Content Display -->
+                <div id="translator-output-card" class="bg-slate-50 rounded-2xl p-5 border border-slate-200/80 space-y-4">
+                    <!-- Dynamic Translation Output -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: INTERACTIVE ROLE-SPECIFIC RESUME TEMPLATE & ATS KEYWORD TOOL -->
+        <section id="section-builder" class="space-y-6 scroll-mt-24">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/90 space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5 no-print">
+                    <div>
+                        <div class="inline-flex items-center gap-2 text-xs font-bold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-md mb-2 border border-teal-100">
+                            <i data-lucide="cpu" class="w-3.5 h-3.5"></i> ATS Optimization & Template Generator
+                        </div>
+                        <h2 class="text-2xl font-black text-slate-900">Target Role Resume Builder</h2>
+                        <p class="text-xs sm:text-sm text-slate-500 mt-1">Select your target healthcare career to load essential ATS keywords, required certifications, and customizable template fields.</p>
+                    </div>
+
+                    <button onclick="window.print()" class="self-start sm:self-auto px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition flex items-center gap-2 shadow-sm">
+                        <i data-lucide="printer" class="w-4 h-4 text-teal-400"></i> Print / Save as PDF
+                    </button>
+                </div>
+
+                <!-- Target Healthcare Role Selector -->
+                <div class="space-y-2 no-print">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Choose Target Entry-Level Healthcare Role:</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5" id="target-role-buttons">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- ATS Insights & Critical Keywords -->
+                <div class="bg-gradient-to-br from-teal-50 to-slate-50 rounded-2xl p-5 border border-teal-100/80 space-y-3 no-print">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-teal-900 flex items-center gap-2">
+                            <i data-lucide="key" class="w-4 h-4 text-teal-600"></i> High-Priority ATS Keywords for <span id="ats-role-name" class="underline">CNA</span>
+                        </h3>
+                        <span class="text-[11px] font-semibold text-slate-500">Click keyword to copy</span>
+                    </div>
+                    <div class="flex flex-wrap gap-2" id="ats-keywords-container">
+                        <!-- Populated by JS -->
+                    </div>
+                    <div class="pt-2 flex flex-wrap items-center justify-between text-xs text-slate-600 border-t border-teal-100 gap-2">
+                        <span><strong class="text-slate-800">Must-Have Certifications:</strong> <span id="ats-certs">State Certification, BLS/CPR</span></span>
+                        <button onclick="insertKeywordsToSummary()" class="text-xs text-teal-700 hover:text-teal-900 font-bold underline flex items-center gap-1">
+                            <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> Auto-insert sample summary
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Editable Resume Preview Canvas -->
+                <div id="resume-document" class="print-only-container bg-white rounded-2xl p-6 sm:p-10 border border-slate-300 shadow-sm space-y-6 max-w-4xl mx-auto text-slate-800">
+                    
+                    <!-- Header Candidate Info -->
+                    <div class="border-b-2 border-slate-900 pb-4 space-y-3 text-center sm:text-left">
+                        <div class="flex flex-col sm:flex-row justify-between items-center gap-2">
+                            <input type="text" id="res-name" value="Alex Taylor, CNA" class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight bg-transparent hover:bg-slate-50 focus:bg-white focus:ring-2 focus:ring-teal-500 rounded px-2 py-1 w-full sm:w-auto">
+                            <span id="res-target-badge" class="px-3 py-1 bg-teal-100 text-teal-800 text-xs font-extrabold rounded-full no-print">Targeting: Certified Nursing Assistant</span>
+                        </div>
+                        <div class="flex flex-wrap justify-center sm:justify-start gap-3 text-xs font-semibold text-slate-600">
+                            <input type="text" id="res-contact" value="Chicago, IL | (555) 234-5678 | alex.taylor@email.com | linkedin.com/in/alextaylor" class="bg-transparent hover:bg-slate-50 focus:bg-white focus:ring-2 focus:ring-teal-500 rounded px-2 py-0.5 w-full">
+                        </div>
+                    </div>
+
+                    <!-- Professional Summary -->
+                    <div class="space-y-2">
+                        <h4 class="text-xs font-black uppercase tracking-widest text-teal-800 border-b border-slate-200 pb-1 flex items-center justify-between">
+                            <span>Professional Summary</span>
+                            <span class="text-[10px] text-slate-400 font-normal no-print">(Editable)</span>
+                        </h4>
+                        <textarea id="res-summary" rows="3" class="w-full text-xs sm:text-sm leading-relaxed text-slate-700 bg-transparent hover:bg-slate-50 focus:bg-white focus:ring-2 focus:ring-teal-500 rounded p-2 border border-transparent focus:border-slate-300 transition resize-y"></textarea>
+                    </div>
+
+                    <!-- Certifications & Licenses -->
+                    <div class="space-y-2">
+                        <h4 class="text-xs font-black uppercase tracking-widest text-teal-800 border-b border-slate-200 pb-1">Certifications & Licenses</h4>
+                        <textarea id="res-certs" rows="2" class="w-full text-xs sm:text-sm font-semibold text-slate-800 bg-transparent hover:bg-slate-50 focus:bg-white focus:ring-2 focus:ring-teal-500 rounded p-2 border border-transparent focus:border-slate-300 transition resize-y"></textarea>
+                    </div>
+
+                    <!-- Clinical Hours & Externship Experience -->
+                    <div class="space-y-2">
+                        <h4 class="text-xs font-black uppercase tracking-widest text-teal-800 border-b border-slate-200 pb-1">Clinical Experience & Externships</h4>
+                        <textarea id="res-clinical" rows="4" class="w-full text-xs sm:text-sm leading-relaxed text-slate-700 bg-transparent hover:bg-slate-50 focus:bg-white focus:ring-2 focus:ring-teal-500 rounded p-2 border border-transparent focus:border-slate-300 transition resize-y"></textarea>
+                    </div>
+
+                    <!-- Translated Work History -->
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between border-b border-slate-200 pb-1">
+                            <h4 class="text-xs font-black uppercase tracking-widest text-teal-800">Employment & Transferable Experience</h4>
+                            <span class="text-[10px] text-slate-400 no-print">Use Section 1 to paste translated bullets here</span>
+                        </div>
+                        <textarea id="res-history" rows="5" class="w-full text-xs sm:text-sm leading-relaxed text-slate-700 bg-transparent hover:bg-slate-50 focus:bg-white focus:ring-2 focus:ring-teal-500 rounded p-2 border border-transparent focus:border-slate-300 transition resize-y"></textarea>
+                    </div>
+
+                    <!-- Core Competencies / Technical Skills -->
+                    <div class="space-y-2">
+                        <h4 class="text-xs font-black uppercase tracking-widest text-teal-800 border-b border-slate-200 pb-1">Core Competencies & Clinical Skills</h4>
+                        <textarea id="res-skills" rows="3" class="w-full text-xs sm:text-sm text-slate-700 bg-transparent hover:bg-slate-50 focus:bg-white focus:ring-2 focus:ring-teal-500 rounded p-2 border border-transparent focus:border-slate-300 transition resize-y"></textarea>
+                    </div>
+                </div>
+
+                <!-- Action Button Row -->
+                <div class="flex flex-wrap items-center justify-between gap-3 pt-2 no-print">
+                    <button onclick="copyFullResume()" class="px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-2 shadow-sm">
+                        <i data-lucide="copy" class="w-4 h-4"></i> Copy Complete Resume Text
+                    </button>
+                    <button onclick="resetResumeToDefault()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold rounded-xl transition flex items-center gap-1.5">
+                        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Reset Template Fields
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: INTERACTIVE RESUME READINESS SCORE CHECKER -->
+        <section id="section-readiness" class="space-y-6 scroll-mt-24 no-print">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/90 space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+                    <div>
+                        <div class="inline-flex items-center gap-2 text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md mb-2 border border-emerald-100">
+                            <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Interactive Readiness Gauge
+                        </div>
+                        <h2 class="text-2xl font-black text-slate-900">MedStep Resume Readiness Score</h2>
+                        <p class="text-xs sm:text-sm text-slate-500 mt-1">Check off the essential elements present on your resume to calculate your ATS & Hiring Manager Readiness score.</p>
+                    </div>
+
+                    <!-- Score Meter Badge -->
+                    <div class="bg-slate-900 text-white rounded-2xl p-4 text-center min-w-[160px] shadow-sm shrink-0">
+                        <span class="block text-[10px] font-bold uppercase text-teal-400 tracking-wider">Readiness Score</span>
+                        <span id="readiness-score-val" class="text-3xl font-black text-white">0%</span>
+                        <span id="readiness-score-status" class="block text-[11px] font-semibold text-coral-400">Needs Setup</span>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="space-y-1">
+                    <div class="flex justify-between text-xs font-bold text-slate-600">
+                        <span>Application Preparedness</span>
+                        <span id="readiness-progress-text">0 of 7 Criteria Checked</span>
+                    </div>
+                    <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                        <div id="readiness-progress-bar" class="bg-gradient-to-r from-coral-500 via-teal-500 to-emerald-500 h-full transition-all duration-300 w-0"></div>
+                    </div>
+                </div>
+
+                <!-- Checkboxes Checklist Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-2" id="readiness-checklist">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Dynamic Instant Feedback & Tips Box -->
+                <div id="readiness-tips-card" class="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-3">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-2">
+                        <i data-lucide="lightbulb" class="w-4 h-4 text-coral-500"></i> Actionable Improvement Suggestions
+                    </h4>
+                    <ul id="readiness-tips-list" class="space-y-2 text-xs text-slate-600">
+                        <!-- Populated by JS -->
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-10 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-slate-100 pb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9">
+                        <svg viewBox="0 0 200 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <ellipse cx="88" cy="22" rx="9" ry="14" fill="#00A896" transform="rotate(-10 88 22)"/>
+                            <ellipse cx="112" cy="29" rx="7.5" ry="11" fill="#028090" transform="rotate(-5 112 29)"/>
+                            <ellipse cx="131" cy="43" rx="6" ry="9" fill="#028090"/>
+                            <ellipse cx="145" cy="61" rx="5" ry="7.5" fill="#014f59"/>
+                            <ellipse cx="154" cy="81" rx="4" ry="6" fill="#014f59"/>
+                            <path d="M 72 44 C 108 42, 142 75, 134 118 C 128 152, 98 180, 80 180 C 62 180, 46 158, 54 130 C 60 104, 80 88, 80 70 C 80 54, 62 50, 46 60 C 26 74, 20 104, 28 132 C 36 156, 54 174, 70 180" stroke="#028090" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="30" cy="82" r="11" fill="#028090" stroke="#FFFFFF" stroke-width="3"/>
+                            <circle cx="30" cy="82" r="5" fill="#00A896"/>
+                            <g transform="translate(76, 116)">
+                                <path d="M -7 -20 H 7 V -7 H 20 V 7 H 7 V 20 H -7 V 7 H -20 V -7 H -7 Z" fill="#ff7b54"/>
+                            </g>
+                            <path d="M 68 102 L 78 88 L 88 102 M 78 88 V 112" stroke="#00A896" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M 88 90 L 98 76 L 108 90 M 98 76 V 100" stroke="#ff7b54" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="text-lg font-black bg-gradient-to-r from-ocean-700 via-teal-600 to-coral-500 bg-clip-text text-transparent">MedStep</span>
+                </div>
+
+                <div class="flex flex-wrap items-center justify-center gap-6 text-xs font-semibold text-slate-600">
+                    <a href="index.html" class="hover:text-teal-600 transition">Explore Careers</a>
+                    <a href="patient-care-vs-tech-quiz.html" class="hover:text-teal-600 transition">Patient Care vs. Tech Quiz</a>
+                    <a href="#section-translator" class="hover:text-teal-600 transition">Skill Translator</a>
+                    <a href="#section-builder" class="hover:text-teal-600 transition">ATS Resume Tool</a>
+                </div>
+            </div>
+
+            <div class="text-center text-xs text-slate-400 space-y-1">
+                <p class="font-bold text-slate-700">MedStep — Helping you take your first step into the medical field.</p>
+                <p>Designed to help entry-level healthcare candidates translate skills and land interviews fast.</p>
+                <p class="pt-2">&copy; MedStep. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Data and Application Logic -->
+    <script>
+        // Non-Healthcare Previous Roles Database for Translation
+        const translationData = [
+            {
+                id: 'retail',
+                title: 'Retail / Sales Associate',
+                icon: 'shopping-bag',
+                rawTasks: 'Cashier duties, restocking shelves, customer service, handling complaints, organizing inventory.',
+                translatedBullets: [
+                    "Managed high-volume customer interactions with calm empathy, maintaining a 98% positive satisfaction score under fast-paced clinic-like conditions.",
+                    "Demonstrated meticulous attention to detail while processing accurate transactions and maintaining strict compliance protocols.",
+                    "De-escalated stressed customer inquiries using active listening and clear communication techniques, directly applicable to patient triage.",
+                    "Maintained a pristine, organized sales environment adhering to strict health, safety, and inventory standards."
+                ],
+                keySkills: ['Customer Communication', 'Conflict Resolution', 'Inventory Tracking', 'Multitasking under Pressure']
+            },
+            {
+                id: 'food',
+                title: 'Food Service / Barista',
+                icon: 'coffee',
+                rawTasks: 'Taking orders, preparing beverages, cleaning tables, sanitation, team coordination in rushes.',
+                translatedBullets: [
+                    "Executed multi-step preparation procedures with extreme precision in a fast-paced environment with zero formula errors.",
+                    "Maintained strict sanitization and infection control standards, enforcing health department safety protocols continuously.",
+                    "Coordinated seamless verbal handoffs with team members during peak rush hours to ensure swift, error-free order fulfillment.",
+                    "Provided compassionate, attentive service while managing long wait lines and diverse client needs gracefully."
+                ],
+                keySkills: ['Sanitation & Hygiene Standards', 'Rapid Execution', 'Active Verbal Handoffs', 'Physical Stamina']
+            },
+            {
+                id: 'customer',
+                title: 'Customer Support / Call Center',
+                icon: 'headphone-off',
+                rawTasks: 'Answering phone calls, logging tickets, handling difficult customers, data entry in CRM systems.',
+                translatedBullets: [
+                    "Handled confidential client demographic and personal data following strict privacy guidelines akin to HIPAA compliance.",
+                    "Input complex client records into digital database software with 99.5% accuracy while navigating phone communication.",
+                    "Employed empathetic de-escalation strategies to comfort distressed callers in high-urgency situations.",
+                    "Organized and routed urgent client inquiries to specialized team leads with high detail and zero delay."
+                ],
+                keySkills: ['EHR/Data Entry Accuracy', 'HIPAA Privacy Awareness', 'Phone Triage & Communication', 'De-escalation']
+            },
+            {
+                id: 'hospitality',
+                title: 'Hospitality / Reception / Hotel',
+                icon: 'hotel',
+                rawTasks: 'Greeting guests, check-ins, managing schedule calendars, handling phone inquiries, guest comfort.',
+                translatedBullets: [
+                    "Managed front-desk patient/client intake, verifying identity, scheduled appointments, and documentation accurately.",
+                    "Created a welcoming, reassuring atmosphere for arriving guests, easing anxiety and providing clear directions.",
+                    "Coordinated complex appointment scheduling calendars using digital management platforms.",
+                    "Monitored lobby waiting area safety, ensuring immediate escalation for visitors showing distress or acute needs."
+                ],
+                keySkills: ['Patient Check-In/Intake', 'Calendar Management', 'Professional Reception', 'Patient Comfort']
+            },
+            {
+                id: 'childcare',
+                title: 'Childcare / Nanny / Teacher Assistant',
+                icon: 'baby',
+                rawTasks: 'Supervising children, administering meals, monitoring health/safety, parent communication, hygiene.',
+                translatedBullets: [
+                    "Monitored daily physical health, behavior changes, and vital wellness indicators for multiple individuals, logging details accurately.",
+                    "Maintained a safe, hygienic environment by administering routine sanitation, first aid, and basic care protocols.",
+                    "Communicated sensitive health and daily behavioral updates directly to families with empathy and clarity.",
+                    "Demonstrated high patience and emotional support while assisting dependent individuals with daily physical needs."
+                ],
+                keySkills: ['Vital Observation', 'Dependent Care & Hygiene', 'First Aid Response', 'Family Communication']
+            },
+            {
+                id: 'admin',
+                title: 'General Admin / Office Clerk',
+                icon: 'file-text',
+                rawTasks: 'Filing paperwork, email correspondence, spreadsheets, managing supplies, organizing records.',
+                translatedBullets: [
+                    "Managed confidential paper and electronic record archiving systems adhering to strict record-keeping standards.",
+                    "Audited office supply inventories and coordinated restocking to eliminate workflow interruptions in busy environments.",
+                    "Drafted clear, professional email correspondence and clinical document summaries for senior leadership review.",
+                    "Utilized Microsoft Office and database software to compile weekly operational performance reports accurately."
+                ],
+                keySkills: ['EHR & Record Archiving', 'Supply Management', 'Document Auditing', 'Written Communication']
+            }
+        ];
+
+        // Role-Specific Resume Template & ATS Keywords Database
+        const roleTemplates = [
+            {
+                id: 'cna',
+                title: 'Certified Nursing Assistant (CNA)',
+                badge: 'Direct Patient Care',
+                keywords: ['Vital Signs', 'ADLs (Activities of Daily Living)', 'Bedside Care', 'Patient Mobility', 'Gait Belt', 'Infection Control', 'HIPAA Compliance', 'Chart Documentation', 'Specimen Collection'],
+                certs: 'State CNA Certification, BLS / CPR (American Heart Association)',
+                summary: 'Compassionate and state-certified Certified Nursing Assistant (CNA) dedicated to delivering exceptional bedside care, vital sign monitoring, and mobility support. Proven track record of fostering patient comfort and supporting RN teams in fast-paced hospital floors.',
+                clinical: 'Clinical Externship — St. Jude Medical Center (100 Hours)\n• Assisted 15+ acute care patients daily with ADLs, hygiene, and positioning using proper gait belt safety.\n• Accurately recorded vital signs (BP, pulse, temp, O2) in hospital EHR system with zero reporting delay.',
+                history: 'Retail Associate — Target (2023 - 2024)\n• Delivered compassionate customer care under fast-paced conditions, de-escalating concerns and assisting mobility-impaired shoppers.\n• Maintained clean, sanitized environment enforcing strict safety standards.',
+                skills: 'Vital Signs Recording • Patient Transfer & Positioning • Personal Hygiene Care • Specimen Collection • EHR Documentation • Active Empathy'
+            },
+            {
+                id: 'phleb',
+                title: 'Phlebotomist',
+                badge: 'Lab & Diagnostics',
+                keywords: ['Venipuncture', 'Capillary Puncture', 'Specimen Processing', 'Order of Draw', 'Vacutainer Tubes', 'Sterile Technique', 'Patient Reassurance', 'Labelling Accuracy', 'Blood Donor Care'],
+                certs: 'Certified Phlebotomy Technician (CPT / NHA), BLS Certified',
+                summary: 'Detail-oriented Certified Phlebotomy Technician (CPT) skilled in executing precision venipuncture and capillary blood draws with minimal patient discomfort. Expert in specimen labeling, maintaining sterile fields, and laboratory safety protocols.',
+                clinical: 'Phlebotomy Externship — Quest Diagnostics Lab (120 Hours / 100+ Successful Venipunctures)\n• Performed high-volume blood draws on adult and pediatric patients adhering strictly to correct Order of Draw.\n• Verified patient identity using dual identifiers and labeled specimen tubes immediately at bedside.',
+                history: 'Barista / Team Lead — Starbucks (2022 - 2024)\n• Practiced precise, multi-step ingredient assembly under tight timeframes while maintaining 100% health inspection hygiene standards.\n• Reassured anxious customers during peak hours with clear, calm communication.',
+                skills: 'Venipuncture Techniques • Order of Draw Mastery • Blood Sample Centrifugation • Sterile Field Maintenance • Patient Comforting • LIS / Data Entry'
+            },
+            {
+                id: 'radtech',
+                title: 'Radiologic Technologist (X-Ray Tech)',
+                badge: 'Diagnostic & Imaging',
+                keywords: ['Diagnostic Radiography', 'ALARA Radiation Safety', 'Patient Positioning', 'Fluoroscopy', 'Lead Shielding', 'PACS Systems', 'Digital Radiography (DR)', 'Anatomical Markers'],
+                certs: 'ARRT (R) Certification, State Radiologic Technologist License, BLS/CPR',
+                summary: 'ARRT-certified Radiologic Technologist dedicated to capturing high-quality diagnostic X-ray images while enforcing rigorous ALARA radiation safety standards. Adept at reassuring nervous patients and collaborating with attending radiologists.',
+                clinical: 'Radiology Clinical Rotation — City General Hospital (750 Hours)\n• Positioned 25+ patients daily for thoracic, abdominal, and skeletal X-ray exams following standard anatomical protocols.\n• Operated C-arm digital fluoroscopy equipment during orthopedic surgical cases in sterile OR environments.',
+                history: 'Customer Support Representative — TeleHealth Direct (2022 - 2023)\n• Guided callers through complex software instructions patiently, verifying identity and logging encounter notes in CRM database.',
+                skills: 'Anatomical Positioning • ALARA Radiation Safety • PACS & RIS Systems • Mobile Portable X-Ray • Surgical C-Arm Operation • Patient Communication'
+            },
+            {
+                id: 'sonographer',
+                title: 'Diagnostic Medical Sonographer',
+                badge: 'Diagnostic & Imaging',
+                keywords: ['Ultrasound Transducer', 'Acoustic Shadowing', 'Abdominal Sonography', 'OB/GYN Ultrasound', 'Vascular Doppler', 'Image Optimization', 'Preliminary Findings', 'Ergonomics'],
+                certs: 'ARDMS (RDMS) Certified, SPI Exam Passed, BLS Healthcare Provider',
+                summary: 'Registry-certified Diagnostic Medical Sonographer specializing in abdominal and OB/GYN ultrasound examinations. Skilled at optimizing acoustic controls, analyzing sonographic criteria, and delivering precise preliminary reports for physician review.',
+                clinical: 'Sonography Internship — Advanced Imaging Clinic (600 Hours)\n• Conducted comprehensive abdominal, pelvic, and small parts ultrasound examinations on diverse patient populations.\n• Documented organ measurements, vascular Doppler flows, and pathology notes clearly for radiologist evaluation.',
+                history: 'Hotel Receptionist — Marriott (2021 - 2023)\n• Managed patient/guest registration, appointment schedules, and confidential client profile updates with pristine accuracy.',
+                skills: 'Transducer Handling • Image Optimization & Gain Controls • Vascular Color Doppler • Patient History Review • Ergonomic Scan Techniques'
+            },
+            {
+                id: 'ma',
+                title: 'Medical Assistant (MA)',
+                badge: 'Hybrid Clinical / Admin',
+                keywords: ['Patient Intake', 'Vital Signs', 'EHR / EMR Software', 'Medication Administration', 'Minor Procedure Prep', 'Appointment Scheduling', 'Medical Referrals', 'Autoclave Sterilization'],
+                certs: 'Certified Medical Assistant (CMA / AAMA or RMA), BLS/CPR',
+                summary: 'Proactive Certified Medical Assistant (CMA) adept at balancing front-office patient scheduling with clinical intake, vitals, and physician procedure assistance. Dedicated to streamlining clinic workflow and improving patient satisfaction scores.',
+                clinical: 'Medical Assisting Externship — Mercy Health Clinic (160 Hours)\n• Prepared 20+ patients daily by measuring vital signs, recording chief complaints, and updating medication lists in Epic EHR.\n• Administered routine immunizations and performed basic CLIA-waived point-of-care lab tests under physician supervision.',
+                history: 'Office Assistant — Metro Legal Services (2022 - 2024)\n• Managed document archiving, appointment calendars, and confidential client intakes adhering strictly to privacy mandates.',
+                skills: 'Patient Intake & Vitals • Immunization Injections • EHR (Epic / Cerner) • EKG Setup • Sterile Instrument Tray Setup • Medical Referral Processing'
+            }
+        ];
+
+        // Resume Readiness Checklist Criteria Data
+        const readinessCriteria = [
+            { id: 'crit_cert', text: 'Active Certification / License Listed (CNA, CPT, CMA, ARRT, BLS)', points: 15, tip: 'Ensure your active certification number and AHA BLS expiration date are clearly visible at the top of your resume.' },
+            { id: 'crit_clin', text: 'Clinical Hours / Externship Section Included with Metrics (e.g. 100+ Hours)', points: 20, tip: 'Include exact clinical externship hours and total procedures completed (e.g., 80+ blood draws or 150 hours).' },
+            { id: 'crit_hipaa', text: 'HIPAA & Patient Confidentiality Keywords Present', points: 15, tip: 'Add keywords like "HIPAA Compliance", "Patient Privacy", or "EHR Security" to pass ATS screening filters.' },
+            { id: 'crit_ehr', text: 'EHR / Software Experience Listed (Epic, Cerner, Meditech, or MS Office)', points: 15, tip: 'Specify the exact Electronic Health Record software you practiced during training (e.g. Epic, Cerner, or Kareo).' },
+            { id: 'crit_vitals', text: 'Core Hard Skills Included (Vitals, Venipuncture, Positioning, Equipment)', points: 15, tip: 'Detail specific clinical machinery and techniques rather than generic statements.' },
+            { id: 'crit_soft', text: 'Translational Soft Skills Featured (Empathy, De-escalation, Communication)', points: 10, tip: 'Highlight soft skills like "Patient Communication" and "De-escalation under pressure" to stand out.' },
+            { id: 'crit_format', text: 'ATS-Friendly Clean Formatting (No Columns, Tables, or Graphics)', points: 10, tip: 'Keep formatting simple with standard bullet points and clear header titles for maximum ATS readability.' }
+        ];
+
+        // State Tracking
+        let activeTranslationRole = 'retail';
+        let activeTargetRole = 'cna';
+        let checkedReadiness = {};
+
+        // INITIALIZATION
+        window.onload = function() {
+            renderTranslationRoleButtons();
+            renderTranslationOutput();
+            renderTargetRoleButtons();
+            loadTargetRoleTemplate(activeTargetRole);
+            renderReadinessChecklist();
+            updateReadinessScore();
+            lucide.createIcons();
+        };
+
+        // NAVIGATION SCROLL HELPER
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // TOAST NOTIFICATION UTILITY
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            const bgColor = type === 'success' ? 'bg-slate-900 border-teal-500' : 'bg-slate-900 border-coral-500';
+            const icon = type === 'success' ? 'check-circle' : 'info';
+            
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl bg-slate-900 text-white text-xs font-bold border-l-4 ${bgColor} shadow-xl transition transform translate-y-2 opacity-0`;
+            toast.innerHTML = `
+                <i data-lucide="${icon}" class="w-4 h-4 text-teal-400"></i>
+                <span>${message}</span>
+            `;
+
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        // COPY TO CLIPBOARD HELPER
+        function copyText(text, label = 'Text') {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast(`${label} copied to clipboard!`);
+            } catch (err) {
+                showToast(`Failed to copy ${label}`, 'error');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        // SECTION 1: SKILL TRANSLATOR FUNCTIONS
+        function renderTranslationRoleButtons() {
+            const container = document.getElementById('translator-role-buttons');
+            container.innerHTML = translationData.map(role => {
+                const isActive = role.id === activeTranslationRole;
+                const activeClass = isActive 
+                    ? 'bg-teal-600 text-white border-teal-600 shadow-sm' 
+                    : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border-slate-200';
+                
+                return `
+                    <button onclick="selectTranslationRole('${role.id}')" class="p-3 rounded-2xl border text-left flex flex-col justify-between gap-2 transition ${activeClass}">
+                        <div class="flex items-center justify-between">
+                            <i data-lucide="${role.icon}" class="w-4 h-4 ${isActive ? 'text-white' : 'text-teal-600'}"></i>
+                            ${isActive ? '<i data-lucide="check" class="w-3.5 h-3.5 text-white"></i>' : ''}
+                        </div>
+                        <span class="text-xs font-bold leading-snug">${role.title}</span>
+                    </button>
+                `;
+            }).join('');
+            lucide.createIcons();
+        }
+
+        function selectTranslationRole(id) {
+            activeTranslationRole = id;
+            renderTranslationRoleButtons();
+            renderTranslationOutput();
+        }
+
+        function renderTranslationOutput() {
+            const role = translationData.find(r => r.id === activeTranslationRole);
+            const container = document.getElementById('translator-output-card');
+
+            container.innerHTML = `
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200/80 pb-3">
+                    <div>
+                        <span class="text-[10px] font-bold uppercase text-coral-600 tracking-wider">Original Non-Clinical Job</span>
+                        <h3 class="text-lg font-bold text-slate-900">${role.title}</h3>
+                    </div>
+                    <button onclick="copyAllTranslatedBullets()" class="self-start sm:self-auto px-3.5 py-1.5 bg-teal-50 hover:bg-teal-100 text-teal-800 border border-teal-200 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                        <i data-lucide="copy" class="w-3.5 h-3.5 text-coral-500"></i> Copy All Translated Bullets
+                    </button>
+                </div>
+
+                <div class="text-xs text-slate-500 bg-white p-3 rounded-xl border border-slate-200">
+                    <strong class="text-slate-700">Typical Everyday Duties:</strong> ${role.rawTasks}
+                </div>
+
+                <div class="space-y-3 pt-1">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                        <i data-lucide="arrow-right-circle" class="w-4 h-4 text-teal-600"></i> Healthcare-Translated Resume Bullet Points:
+                    </h4>
+                    <div class="space-y-2.5">
+                        ${role.translatedBullets.map((bullet, idx) => `
+                            <div class="p-3 bg-white rounded-xl border border-slate-200 hover:border-teal-300 transition flex items-start justify-between gap-3 group">
+                                <p class="text-xs text-slate-700 leading-relaxed">• ${bullet}</p>
+                                <button onclick="copyText('${bullet.replace(/'/g, "\\'")}', 'Bullet point')" class="p-1.5 text-slate-400 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition shrink-0" title="Copy bullet text">
+                                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div class="pt-2 border-t border-slate-200/80 flex flex-wrap items-center gap-2">
+                    <span class="text-xs font-bold text-slate-600">Translated Key Skills:</span>
+                    ${role.keySkills.map(skill => `<span class="px-2.5 py-1 bg-white text-slate-700 text-[11px] font-semibold rounded-lg border border-slate-200">${skill}</span>`).join('')}
+                </div>
+            `;
+
+            lucide.createIcons();
+        }
+
+        function copyAllTranslatedBullets() {
+            const role = translationData.find(r => r.id === activeTranslationRole);
+            const fullText = role.translatedBullets.map(b => `• ${b}`).join('\n');
+            copyText(fullText, `All ${role.title} translated bullets`);
+        }
+
+        // SECTION 2: TARGET ROLE RESUME & ATS TOOL FUNCTIONS
+        function renderTargetRoleButtons() {
+            const container = document.getElementById('target-role-buttons');
+            container.innerHTML = roleTemplates.map(role => {
+                const isActive = role.id === activeTargetRole;
+                const activeClass = isActive 
+                    ? 'bg-slate-900 text-white border-slate-900 shadow-sm' 
+                    : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border-slate-200';
+
+                return `
+                    <button onclick="selectTargetRole('${role.id}')" class="p-3 rounded-2xl border text-left flex flex-col justify-between gap-1.5 transition ${activeClass}">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded ${isActive ? 'bg-teal-500 text-white' : 'bg-teal-100 text-teal-800'}">${role.badge.split(' ')[0]}</span>
+                            ${isActive ? '<i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-teal-400"></i>' : ''}
+                        </div>
+                        <span class="text-xs font-bold leading-tight">${role.title}</span>
+                    </button>
+                `;
+            }).join('');
+            lucide.createIcons();
+        }
+
+        function selectTargetRole(id) {
+            activeTargetRole = id;
+            renderTargetRoleButtons();
+            loadTargetRoleTemplate(id);
+        }
+
+        function loadTargetRoleTemplate(id) {
+            const role = roleTemplates.find(r => r.id === id);
+            
+            // ATS Banner Info
+            document.getElementById('ats-role-name').innerText = role.title;
+            document.getElementById('ats-certs').innerText = role.certs;
+            
+            const kwContainer = document.getElementById('ats-keywords-container');
+            kwContainer.innerHTML = role.keywords.map(kw => `
+                <button onclick="copyText('${kw}', 'ATS Keyword')" class="px-2.5 py-1 bg-white hover:bg-teal-100 text-teal-900 text-xs font-bold rounded-lg border border-teal-200 transition flex items-center gap-1 shadow-2xs">
+                    <i data-lucide="plus" class="w-3 h-3 text-coral-500"></i> ${kw}
+                </button>
+            `).join('');
+
+            // Fill Resume Template Canvas Fields
+            document.getElementById('res-target-badge').innerText = `Targeting: ${role.title}`;
+            document.getElementById('res-summary').value = role.summary;
+            document.getElementById('res-certs').value = role.certs;
+            document.getElementById('res-clinical').value = role.clinical;
+            document.getElementById('res-history').value = role.history;
+            document.getElementById('res-skills').value = role.skills;
+
+            lucide.createIcons();
+        }
+
+        function insertKeywordsToSummary() {
+            const role = roleTemplates.find(r => r.id === activeTargetRole);
+            document.getElementById('res-summary').value = role.summary;
+            showToast('Sample summary loaded into template!');
+        }
+
+        function resetResumeToDefault() {
+            loadTargetRoleTemplate(activeTargetRole);
+            showToast('Resume template reset to default!');
+        }
+
+        function copyFullResume() {
+            const name = document.getElementById('res-name').value;
+            const contact = document.getElementById('res-contact').value;
+            const summary = document.getElementById('res-summary').value;
+            const certs = document.getElementById('res-certs').value;
+            const clinical = document.getElementById('res-clinical').value;
+            const history = document.getElementById('res-history').value;
+            const skills = document.getElementById('res-skills').value;
+
+            const fullResume = `${name}\n${contact}\n\nPROFESSIONAL SUMMARY\n${summary}\n\nCERTIFICATIONS & LICENSES\n${certs}\n\nCLINICAL EXPERIENCE & EXTERNSHIPS\n${clinical}\n\nEMPLOYMENT & TRANSFERABLE EXPERIENCE\n${history}\n\nCORE COMPETENCIES & CLINICAL SKILLS\n${skills}`;
+
+            copyText(fullResume, 'Full Resume Content');
+        }
+
+        // SECTION 3: RESUME READINESS SCORE CHECKER
+        function renderReadinessChecklist() {
+            const container = document.getElementById('readiness-checklist');
+            container.innerHTML = readinessCriteria.map(item => `
+                <label class="p-4 bg-slate-50 hover:bg-teal-50/50 rounded-2xl border border-slate-200/90 hover:border-teal-300 transition flex items-start gap-3 cursor-pointer group">
+                    <input type="checkbox" onchange="toggleReadinessItem('${item.id}')" class="mt-0.5 w-4 h-4 rounded text-teal-600 focus:ring-teal-500 border-slate-300">
+                    <div class="space-y-1">
+                        <span class="text-xs font-bold text-slate-800 group-hover:text-slate-900 leading-snug block">${item.text}</span>
+                        <span class="text-[11px] text-slate-400 block">+${item.points}% Readiness Score</span>
+                    </div>
+                </label>
+            `).join('');
+        }
+
+        function toggleReadinessItem(id) {
+            checkedReadiness[id] = !checkedReadiness[id];
+            updateReadinessScore();
+        }
+
+        function updateReadinessScore() {
+            let totalScore = 0;
+            let checkedCount = 0;
+
+            readinessCriteria.forEach(item => {
+                if (checkedReadiness[item.id]) {
+                    totalScore += item.points;
+                    checkedCount++;
+                }
+            });
+
+            // Update Score Elements
+            document.getElementById('readiness-score-val').innerText = `${totalScore}%`;
+            document.getElementById('readiness-progress-text').innerText = `${checkedCount} of ${readinessCriteria.length} Criteria Checked`;
+            document.getElementById('readiness-progress-bar').style.width = `${totalScore}%`;
+
+            const statusEl = document.getElementById('readiness-score-status');
+            if (totalScore >= 85) {
+                statusEl.innerText = 'Application Ready!';
+                statusEl.className = 'block text-[11px] font-semibold text-emerald-400';
+            } else if (totalScore >= 50) {
+                statusEl.innerText = 'Good Progress';
+                statusEl.className = 'block text-[11px] font-semibold text-teal-300';
+            } else {
+                statusEl.innerText = 'Needs Setup';
+                statusEl.className = 'block text-[11px] font-semibold text-coral-400';
+            }
+
+            // Update Tips Box
+            const tipsContainer = document.getElementById('readiness-tips-list');
+            const missingItems = readinessCriteria.filter(item => !checkedReadiness[item.id]);
+
+            if (missingItems.length === 0) {
+                tipsContainer.innerHTML = `
+                    <li class="flex items-center gap-2 text-emerald-700 font-bold bg-emerald-50 p-3 rounded-xl border border-emerald-200">
+                        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                        <span>Outstanding! Your resume meets all top ATS and hiring manager readiness standards.</span>
+                    </li>
+                `;
+            } else {
+                tipsContainer.innerHTML = missingItems.map(item => `
+                    <li class="flex items-start gap-2 text-slate-600 bg-white p-2.5 rounded-xl border border-slate-200">
+                        <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-coral-500 shrink-0 mt-0.5"></i>
+                        <span><strong>Missing:</strong> ${item.tip}</span>
+                    </li>
+                `).join('');
+            }
+
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
