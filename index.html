@@ -1,496 +1,1049 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full bg-slate-50">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedStep | Helping you take your first step into the medical field</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-        .modal-blur {
-            backdrop-filter: blur(8px);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedStep | Helping you take your first step into the medical field</title>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Lucide Icons CDN -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+tailwind.config = {
+darkMode: 'class',
+theme: {
+extend: {
+colors: {
+teal: {
+50: '#f0fdfa',
+100: '#ccfbf1',
+200: '#99f6e4',
+500: '#14b8a6',
+600: '#00A896',
+700: '#0f766e',
+800: '#115e59',
+900: '#134e4a',
+},
+ocean: {
+500: '#028090',
+600: '#026875',
+700: '#014f59',
+},
+coral: {
+400: '#ff7b54',
+500: '#f95738',
+600: '#e03e1a',
+}
+},
+fontFamily: {
+sans: ['Inter', 'sans-serif'],
+}
+}
+}
+}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+.tab-active {
+border-bottom: 2px solid #00A896;
+color: #00A896;
+font-weight: 600;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+background: #f1f5f9;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+background: #cbd5e1;
+border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+background: #94a3b8;
+}
+</style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+<body class="h-full text-slate-800 font-sans flex flex-col antialiased selection:bg-teal-100 selection:text-teal-800">
 
-    <!-- HEADER & NAVIGATION -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-                <!-- ACCURATE MEDSTEP LOGO SVG -->
-                <svg class="h-14 w-auto drop-shadow-sm" viewBox="0 0 180 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- 5 Teal Footprint Toes -->
-                    <ellipse cx="88" cy="20" rx="9" ry="14" fill="#00A896" transform="rotate(-10 88 20)"/>
-                    <ellipse cx="112" cy="27" rx="7.5" ry="11" fill="#028090" transform="rotate(-5 112 27)"/>
-                    <ellipse cx="131" cy="41" rx="6" ry="9" fill="#028090"/>
-                    <ellipse cx="145" cy="59" rx="5" ry="7.5" fill="#05668D"/>
-                    <ellipse cx="154" cy="79" rx="4" ry="6" fill="#05668D"/>
+<!-- Navigation Header -->
+<header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-20">
 
-                    <!-- Main Blue Stethoscope Footprint Outline -->
-                    <path d="M 72 42 
-                             C 105 40, 138 72, 130 115 
-                             C 124 150, 95 178, 78 178 
-                             C 60 178, 45 156, 52 128 
-                             C 58 102, 78 86, 78 68 
-                             C 78 52, 60 48, 44 58 
-                             C 24 72, 18 102, 26 130 
-                             C 34 154, 52 172, 68 178" 
-                          stroke="#0284C7" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+<!-- MedStep Brand Logo & Title -->
+<div class="flex items-center gap-3.5 cursor-pointer py-2" onclick="switchTab('directory')">
+<div class="relative w-12 h-12 flex-shrink-0">
+<!-- MedStep Native Inline SVG Logo -->
+<svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-sm" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- 5 Teal Footprint Toes -->
+<ellipse cx="88" cy="22" rx="9" ry="14" fill="#00A896" transform="rotate(-10 88 22)"/>
+<ellipse cx="112" cy="29" rx="7.5" ry="11" fill="#028090" transform="rotate(-5 112 29)"/>
+<ellipse cx="131" cy="43" rx="6" ry="9" fill="#028090"/>
+<ellipse cx="145" cy="61" rx="5" ry="7.5" fill="#014f59"/>
+<ellipse cx="154" cy="81" rx="4" ry="6" fill="#014f59"/>
 
-                    <!-- Stethoscope Earpiece/Bell Chestpiece -->
-                    <circle cx="28" cy="80" r="11" fill="#0284C7" stroke="#FFFFFF" stroke-width="3"/>
-                    <circle cx="28" cy="80" r="5" fill="#38BDF8"/>
-                    
-                    <!-- Bright Orange Medical Cross -->
-                    <g transform="translate(74, 114)">
-                        <path d="M -7 -20 H 7 V -7 H 20 V 7 H 7 V 20 H -7 V 7 H -20 V -7 H -7 Z" fill="#FF6B4A"/>
-                    </g>
+<!-- Main Stethoscope Ribbon Loop Footprint -->
+<path d="M 72 44
+C 108 42, 142 75, 134 118
+C 128 152, 98 180, 80 180
+C 62 180, 46 158, 54 130
+C 60 104, 80 88, 80 70
+C 80 54, 62 50, 46 60
+C 26 74, 20 104, 28 132
+C 36 156, 54 174, 70 180"
+stroke="#028090" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
 
-                    <!-- Dual Upward Growth Arrows inside Footprint Arch -->
-                    <!-- Arrow 1 (Left/Teal) -->
-                    <path d="M 68 100 L 78 86 L 88 100 M 78 86 V 110" stroke="#00A896" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <!-- Arrow 2 (Right/Sky Blue) -->
-                    <path d="M 88 88 L 98 74 L 108 88 M 98 74 V 98" stroke="#38BDF8" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+<!-- Stethoscope Earpiece/Bell Chestpiece -->
+<circle cx="30" cy="82" r="11" fill="#028090" stroke="#FFFFFF" stroke-width="3"/>
+<circle cx="30" cy="82" r="5" fill="#00A896"/>
 
-                <div>
-                    <span class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-teal-600 via-sky-600 to-cyan-600 bg-clip-text text-transparent">MedStep</span>
-                    <p class="text-xs text-slate-500 font-medium hidden sm:block">Take your first step into healthcare</p>
-                </div>
-            </div>
-            
-            <nav class="flex items-center space-x-2 sm:space-x-6">
-                <a href="#explore" class="text-slate-600 hover:text-cyan-600 font-semibold text-sm transition-colors">Explore Careers</a>
-                <a href="#quiz" class="text-slate-600 hover:text-cyan-600 font-semibold text-sm transition-colors">Career Matcher</a>
-                <a href="#quiz" class="bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 text-white font-bold text-sm px-4 py-2.5 rounded-xl shadow-sm transition-all flex items-center space-x-1.5">
-                    <i data-lucide="sparkles" class="w-4 h-4"></i>
-                    <span>Take Quiz</span>
-                </a>
-            </nav>
-        </div>
-    </header>
+<!-- Bright Orange Medical Cross -->
+<g transform="translate(76, 116)">
+<path d="M -7 -20 H 7 V -7 H 20 V 7 H 7 V 20 H -7 V 7 H -20 V -7 H -7 Z" fill="#ff7b54"/>
+</g>
 
-    <!-- HERO SECTION -->
-    <section class="bg-gradient-to-b from-teal-50/60 via-white to-slate-50 border-b border-slate-200 py-16 lg:py-24">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            
-            <!-- Badge Tagline -->
-            <div class="inline-flex items-center space-x-2 bg-white border border-teal-200 text-teal-800 text-xs sm:text-sm font-semibold px-4 py-1.5 rounded-full shadow-sm mb-6">
-                <span class="flex h-2 w-2 rounded-full bg-teal-500 animate-pulse"></span>
-                <span>Helping you take your first step into the medical field</span>
-            </div>
+<!-- Dual Upward Growth Arrows inside Footprint Arch -->
+<path d="M 68 102 L 78 88 L 88 102 M 78 88 V 112" stroke="#00A896" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 88 90 L 98 76 L 108 90 M 98 76 V 100" stroke="#ff7b54" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</div>
+<div>
+<span class="text-2xl font-black bg-gradient-to-r from-ocean-700 via-teal-600 to-coral-500 bg-clip-text text-transparent tracking-tight">MedStep</span>
+<p class="hidden sm:block text-[11px] text-slate-500 font-semibold tracking-tight -mt-0.5">
+Helping you take your first step into the medical field.
+</p>
+</div>
+</div>
 
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight max-w-4xl mx-auto">
-                Discover Your Path to a Rewarding <span class="bg-gradient-to-r from-teal-600 via-sky-600 to-cyan-600 bg-clip-text text-transparent">Healthcare Career</span>
-            </h1>
+<!-- Navigation Tabs & External Quiz Link -->
+<div class="flex items-center gap-2 sm:gap-6">
+<nav class="flex space-x-1 sm:space-x-6 text-xs sm:text-sm font-semibold">
+<button onclick="switchTab('directory')" id="tab-directory" class="tab-active py-6 px-1 sm:px-2 flex items-center gap-1.5 transition-colors">
+<i data-lucide="compass" class="w-4 h-4"></i>
+<span>Explore Careers</span>
+</button>
+<button onclick="switchTab('quiz')" id="tab-quiz" class="text-slate-500 hover:text-teal-600 py-6 px-1 sm:px-2 flex items-center gap-1.5 transition-colors">
+<i data-lucide="sparkles" class="w-4 h-4"></i>
+<span>Career Matcher</span>
+</button>
+<button onclick="switchTab('roadmap')" id="tab-roadmap" class="text-slate-500 hover:text-teal-600 py-6 px-1 sm:px-2 flex items-center gap-1.5 transition-colors">
+<i data-lucide="git-branch" class="w-4 h-4"></i>
+<span>Career Roadmaps</span>
+</button>
+</nav>
 
-            <p class="mt-6 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                Explore fast-track healthcare careers that take 2 years or less. Find the right mix of salary, hands-on care, or technical focus tailored to your goals.
-            </p>
+<!-- Direct Link to Patient Care vs Tech Quiz -->
+<a href="patient-care-vs-tech-quiz.html" class="hidden lg:inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold bg-teal-50 text-teal-800 border border-teal-200 hover:bg-teal-100 transition shadow-sm">
+<i data-lucide="help-circle" class="w-4 h-4 text-coral-500"></i>
+<span>Patient Care vs. Tech Quiz</span>
+</a>
+</div>
+</div>
+</div>
+</header>
 
-            <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="#explore" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-3.5 rounded-xl shadow-md transition-all flex items-center justify-center space-x-2">
-                    <i data-lucide="search" class="w-5 h-5"></i>
-                    <span>Browse All Careers</span>
-                </a>
-                <a href="#quiz" class="w-full sm:w-auto bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold px-8 py-3.5 rounded-xl transition-all flex items-center justify-center space-x-2">
-                    <i data-lucide="compass" class="w-5 h-5 text-teal-600"></i>
-                    <span>Find My Match</span>
-                </a>
-            </div>
-        </div>
-    </section>
+<!-- Main Content Container -->
+<main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-    <!-- MAIN CONTENT CONTAINER -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow space-y-16">
+<!-- VIEW 1: CAREER DIRECTORY -->
+<section id="view-directory" class="space-y-8">
+<!-- MedStep Hero Banner -->
+<div class="bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
+<div class="absolute -right-10 -bottom-10 w-72 h-72 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute right-1/4 top-0 w-48 h-48 bg-coral-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
-        <!-- SEARCH & FILTER SECTION -->
-        <section id="explore" class="scroll-mt-24 space-y-6">
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                <div>
-                    <h2 class="text-2xl font-bold text-slate-900">Career Directory</h2>
-                    <p class="text-sm text-slate-500">Filter positions by education requirements, work focus, and core job functions.</p>
-                </div>
-                <!-- Search Box -->
-                <div class="relative w-full md:w-80">
-                    <i data-lucide="search" class="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
-                    <input type="text" id="searchInput" placeholder="Search title, skills, or degree..." 
-                           class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 shadow-sm">
-                </div>
-            </div>
+<div class="relative z-10 max-w-3xl space-y-4">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-teal-500/20 text-teal-300 border border-teal-500/30">
+<i data-lucide="footprints" class="w-3.5 h-3.5 text-coral-400"></i> MedStep Career Explorer
+</div>
+<h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+Helping you take your first step into the medical field.
+</h1>
+<p class="text-slate-300 text-sm sm:text-lg leading-relaxed">
+Discover high-demand healthcare careers you can start in 2 years or less. Filter by education length, pay, and clinical work style to find your ideal fit.
+</p>
 
-            <!-- Filter Badges -->
-            <div class="flex flex-wrap gap-2 pt-2">
-                <button onclick="filterCategory('all')" class="filter-btn active-filter px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition-all bg-slate-900 text-white border-slate-900" data-category="all">
-                    All Careers (<span id="count-all">0</span>)
-                </button>
-                <button onclick="filterCategory('short-cert')" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-200 bg-white text-slate-600 hover:border-slate-300 transition-all" data-category="short-cert">
-                    &lt; 1 Year Certificate (<span id="count-short">0</span>)
-                </button>
-                <button onclick="filterCategory('associate')" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-200 bg-white text-slate-600 hover:border-slate-300 transition-all" data-category="associate">
-                    2-Year Associate Degree (<span id="count-assoc">0</span>)
-                </button>
-                <button onclick="filterCategory('patient-care')" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-200 bg-white text-slate-600 hover:border-slate-300 transition-all" data-category="patient-care">
-                    Direct Patient Care (<span id="count-care">0</span>)
-                </button>
-                <button onclick="filterCategory('tech-imaging')" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-200 bg-white text-slate-600 hover:border-slate-300 transition-all" data-category="tech-imaging">
-                    Imaging & Technical (<span id="count-tech">0</span>)
-                </button>
-            </div>
+<!-- Hero Call to Action Buttons -->
+<div class="flex flex-wrap items-center gap-3 pt-2">
+<a href="patient-care-vs-tech-quiz.html" class="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-coral-500 to-coral-600 hover:from-coral-600 hover:to-coral-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition transform hover:-translate-y-0.5">
+<i data-lucide="sparkles" class="w-4 h-4"></i>
+<span>Take "Patient Care vs. Tech" Quiz</span>
+<i data-lucide="arrow-right" class="w-4 h-4 ml-0.5"></i>
+</a>
+<button onclick="switchTab('quiz')" class="inline-flex items-center gap-2 px-5 py-3 bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-semibold rounded-xl border border-white/20 transition backdrop-blur-md">
+<i data-lucide="compass" class="w-4 h-4 text-teal-300"></i>
+<span>Quick Career Matcher</span>
+</button>
+</div>
 
-            <!-- Career Cards Grid -->
-            <div id="careerGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Injected via JavaScript -->
-            </div>
-        </section>
+<!-- Search Input -->
+<div class="relative max-w-xl pt-3">
+<i data-lucide="search" class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 mt-1.5"></i>
+<input type="text" id="search-input" oninput="filterCareers()" placeholder="Search titles, skills (e.g. blood, ER, imaging, vitals, desk)..." class="w-full pl-12 pr-4 py-3.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:bg-white/20 transition text-sm">
+</div>
+</div>
+</div>
 
-        <!-- QUIZ SECTION -->
-        <section id="quiz" class="scroll-mt-24 bg-gradient-to-br from-slate-900 via-slate-800 to-teal-950 rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
-            <div class="max-w-3xl mx-auto space-y-6 text-center">
-                <div class="inline-flex items-center space-x-2 bg-teal-500/20 text-teal-300 text-xs font-semibold px-3.5 py-1 rounded-full border border-teal-500/30">
-                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-                    <span>Interactive Career Matcher</span>
-                </div>
-                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Not sure where to begin?</h2>
-                <p class="text-slate-300 text-sm sm:text-base">Answer 4 quick questions to find healthcare careers aligned with your personality, timeline, and work preference.</p>
-                
-                <div id="quizContainer" class="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-6 text-left mt-8">
-                    <!-- Quiz Step content dynamically rendered here -->
-                </div>
-            </div>
-        </section>
-    </main>
+<div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80 space-y-5">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+<div class="flex items-center gap-2">
+<i data-lucide="sliders-horizontal" class="w-5 h-5 text-teal-600"></i>
+<h2 class="font-bold text-slate-800 text-lg">Filter Roles</h2>
+<span id="active-count" class="ml-2 px-2.5 py-0.5 bg-teal-50 text-teal-700 text-xs font-semibold rounded-full border border-teal-200">13 Roles</span>
+</div>
+<button onclick="resetFilters()" class="text-xs text-slate-500 hover:text-teal-600 flex items-center gap-1 font-medium self-start md:self-auto transition">
+<i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Reset All Filters
+</button>
+</div>
 
-    <!-- CAREER DETAIL MODAL -->
-    <div id="careerModal" class="fixed inset-0 z-50 hidden modal-blur bg-slate-900/50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-100 p-6 sm:p-8 relative space-y-6">
-            <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-600 bg-slate-100 p-2 rounded-full transition-colors">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-            <div id="modalContent">
-                <!-- Modal content populated dynamically -->
-            </div>
-        </div>
-    </div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Education Level Filter -->
+<div>
+<label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2.5">
+Education & Training Timeline
+</label>
+<div class="flex flex-wrap gap-2" id="edu-filter-group">
+<button onclick="toggleEduFilter('all')" data-edu="all" class="edu-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-teal-600 text-white border border-teal-600 shadow-sm transition">All Timelines</button>
+<button onclick="toggleEduFilter('short')" data-edu="short" class="edu-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 border border-transparent transition">&lt; 6 Months</button>
+<button onclick="toggleEduFilter('cert')" data-edu="cert" class="edu-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 border border-transparent transition">6 - 12 Months</button>
+<button onclick="toggleEduFilter('assoc')" data-edu="assoc" class="edu-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 border border-transparent transition">1-2 Year Degree</button>
+</div>
+</div>
 
-    <!-- FOOTER -->
-    <footer class="bg-white border-t border-slate-200 py-10 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-sm">
-            <div class="flex items-center space-x-2">
-                <span class="font-bold text-slate-800">MedStep</span>
-                <span>— Helping you take your first step into the medical field.</span>
-            </div>
-            <p>&copy; 2026 MedStep. Built for health career explorers.</p>
-        </div>
-    </footer>
+<!-- Work Setting / Category Filter -->
+<div>
+<label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2.5">
+Work Focus & Field
+</label>
+<div class="flex flex-wrap gap-2" id="cat-filter-group">
+<button onclick="toggleCatFilter('all')" data-cat="all" class="cat-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-teal-600 text-white border border-teal-600 shadow-sm transition">All Focuses</button>
+<button onclick="toggleCatFilter('Direct Patient Care')" data-cat="Direct Patient Care" class="cat-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 border border-transparent transition">Direct Patient Care</button>
+<button onclick="toggleCatFilter('Tech & Diagnostic')" data-cat="Tech & Diagnostic" class="cat-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 border border-transparent transition">Tech & Diagnostic</button>
+<button onclick="toggleCatFilter('Admin & Lab')" data-cat="Admin & Lab" class="cat-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 border border-transparent transition">Admin & Lab</button>
+</div>
+</div>
+</div>
+</div>
 
-    <!-- APP SCRIPT & DATA LOGIC -->
-    <script>
-        const careers = [
-            {
-                id: 'cna',
-                title: 'Certified Nursing Assistant (CNA)',
-                timeline: 'short-cert',
-                duration: '4 - 12 weeks',
-                category: 'patient-care',
-                salary: '$35,000 - $42,000',
-                growth: 'Very High (+9%)',
-                summary: 'Provides hands-on care, assisting patients with daily tasks, vital signs, and basic mobility.',
-                skills: ['Patient Care', 'Vital Signs', 'Empathy', 'Teamwork'],
-                pros: ['Fast entry point', 'High job availability', 'Great pre-nursing experience'],
-                cons: ['Physically demanding', 'Shift work'],
-                roadmap: 'CNA -> LPN / LVN -> Registered Nurse (RN)'
-            },
-            {
-                id: 'ma',
-                title: 'Medical Assistant (MA)',
-                timeline: 'short-cert',
-                duration: '4 - 12 months',
-                category: 'patient-care',
-                salary: '$38,000 - $48,000',
-                growth: 'High (+14%)',
-                summary: 'Combines administrative clinic operations with basic clinical duties like blood draws and patient intake.',
-                skills: ['EHR Systems', 'Patient Intake', 'Phlebotomy', 'Scheduling'],
-                pros: ['Balanced office/clinical routine', 'Regular daytime hours', 'Broad skills'],
-                cons: ['Moderate starting pay'],
-                roadmap: 'Medical Assistant -> Clinic Supervisor -> Healthcare Administrator'
-            },
-            {
-                id: 'rad-tech',
-                title: 'Radiologic Technologist (X-Ray / CT)',
-                timeline: 'associate',
-                duration: '2 Years (Associate)',
-                category: 'tech-imaging',
-                salary: '$65,000 - $82,000',
-                growth: 'Strong (+6%)',
-                summary: 'Operates diagnostic imaging equipment to capture X-rays and scans for medical evaluations.',
-                skills: ['Anatomy', 'Radiation Safety', 'Diagnostic Tech', 'Patient Positioning'],
-                pros: ['High starting salary', 'Strong tech focus', 'Pathway to CT/MRI certification'],
-                cons: ['Strict radiation safety compliance required'],
-                roadmap: 'Rad Tech -> CT/MRI Specialist -> Diagnostic Imaging Director'
-            },
-            {
-                id: 'sonographer',
-                title: 'Diagnostic Ultrasound Sonographer',
-                timeline: 'associate',
-                duration: '1.5 - 2 Years',
-                category: 'tech-imaging',
-                salary: '$75,000 - $95,000',
-                growth: 'Very High (+10%)',
-                summary: 'Uses high-frequency sound wave technology to produce diagnostic images of body tissue and organs.',
-                skills: ['Ultrasound Equipment', 'Anatomic Knowledge', 'Patient Care'],
-                pros: ['Top-tier Associate degree salary', 'Non-invasive tech', 'High specialization options'],
-                cons: ['Repetitive wrist strain risks'],
-                roadmap: 'Sonographer -> Vascular Specialist -> Lead Ultrasound Tech'
-            },
-            {
-                id: 'phlebotomist',
-                title: 'Phlebotomist',
-                timeline: 'short-cert',
-                duration: '1 - 3 months',
-                category: 'patient-care',
-                salary: '$36,000 - $44,000',
-                growth: 'High (+8%)',
-                summary: 'Specializes in drawing blood for medical testing, transfusions, and clinical research.',
-                skills: ['Venipuncture', 'Specimen Handling', 'Patient Comfort', 'Lab Safety'],
-                pros: ['Very quick training', 'High entry availability', 'Hands-on patient contact'],
-                cons: ['Repetitive daily tasks'],
-                roadmap: 'Phlebotomist -> Lab Technician -> Medical Technologist'
-            },
-            {
-                id: 'resp-therapist',
-                title: 'Respiratory Therapist (RRT)',
-                timeline: 'associate',
-                duration: '2 Years (Associate)',
-                category: 'patient-care',
-                salary: '$70,000 - $88,000',
-                growth: 'High (+13%)',
-                summary: 'Assists patients with cardiopulmonary and breathing disorders, operating ventilators and emergency airway care.',
-                skills: ['Ventilator Management', 'Critical Care', 'Pulmonary Assessment'],
-                pros: ['Vital ICU/ER role', 'Strong pay potential', 'Active technical environment'],
-                cons: ['High-stress emergency situations'],
-                roadmap: 'Staff RRT -> Critical Care Transport -> Pulmonary Specialist'
-            }
-        ];
+<!-- Career Cards Grid -->
+<div id="career-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Dynamically Populated via JS -->
+</div>
 
-        // RENDER CAREER CARDS
-        function renderCareers(list) {
-            const grid = document.getElementById('careerGrid');
-            grid.innerHTML = '';
+<!-- Empty Search State -->
+<div id="no-results" class="hidden text-center py-16 bg-white rounded-2xl border border-slate-200">
+<i data-lucide="search-x" class="w-12 h-12 text-slate-300 mx-auto mb-3"></i>
+<h3 class="text-lg font-bold text-slate-700">No matching careers found</h3>
+<p class="text-slate-500 text-sm mt-1">Try broadening your filters or search keywords on MedStep.</p>
+<button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-teal-600 text-white text-xs font-semibold rounded-xl hover:bg-teal-700 transition">Reset All Filters</button>
+</div>
+</section>
 
-            if (list.length === 0) {
-                grid.innerHTML = `
-                    <div class="col-span-full text-center py-12 text-slate-400">
-                        <i data-lucide="search-x" class="w-12 h-12 mx-auto mb-3 stroke-1"></i>
-                        <p class="font-medium text-slate-600">No careers found matching your criteria.</p>
-                    </div>`;
-                lucide.createIcons();
-                return;
-            }
+<!-- VIEW 2: CAREER MATCHER QUIZ -->
+<section id="view-quiz" class="hidden space-y-8 max-w-3xl mx-auto">
+<div class="text-center space-y-3">
+<div class="inline-flex items-center justify-center p-3.5 bg-teal-100 text-teal-700 rounded-2xl mb-1">
+<i data-lucide="sparkles" class="w-6 h-6"></i>
+</div>
+<h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">MedStep Career Matcher</h2>
+<p class="text-slate-600 text-sm sm:text-base">Answer 4 quick questions to discover healthcare careers tailored to your timeline, skills, and work style.</p>
 
-            list.forEach(c => {
-                const card = document.createElement('div');
-                card.className = "bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group";
-                card.innerHTML = `
-                    <div class="space-y-4">
-                        <div class="flex items-start justify-between gap-2">
-                            <span class="text-xs font-bold px-2.5 py-1 rounded-full ${c.timeline === 'short-cert' ? 'bg-teal-50 text-teal-700 border border-teal-200' : 'bg-indigo-50 text-indigo-700 border border-indigo-200'}">
-                                ${c.duration}
-                            </span>
-                            <span class="text-xs font-semibold text-slate-500">${c.growth} Growth</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-900 group-hover:text-teal-600 transition-colors">${c.title}</h3>
-                        <p class="text-slate-600 text-sm line-clamp-2 leading-relaxed">${c.summary}</p>
-                        
-                        <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                            <span>Est. Pay Range:</span>
-                            <span class="font-bold text-slate-800 text-sm">${c.salary}</span>
-                        </div>
-                    </div>
-                    
-                    <button onclick="openModal('${c.id}')" class="mt-6 w-full bg-slate-100 hover:bg-teal-600 hover:text-white text-slate-700 font-semibold py-2.5 rounded-xl transition-all text-sm flex items-center justify-center space-x-1.5">
-                        <span>View Details</span>
-                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </button>
-                `;
-                grid.appendChild(card);
-            });
-            lucide.createIcons();
-            updateCounts();
-        }
+<!-- Quiz Link Banner -->
+<div class="pt-2">
+<a href="patient-care-vs-tech-quiz.html" class="inline-flex items-center gap-2 text-xs font-semibold text-coral-600 hover:text-coral-700 underline underline-offset-4">
+Looking specifically for Patient Care vs. Tech analysis? Click here for the 5-question deep quiz.
+</a>
+</div>
+</div>
 
-        // UPDATE CATEGORY COUNTS
-        function updateCounts() {
-            document.getElementById('count-all').innerText = careers.length;
-            document.getElementById('count-short').innerText = careers.filter(c => c.timeline === 'short-cert').length;
-            document.getElementById('count-assoc').innerText = careers.filter(c => c.timeline === 'associate').length;
-            document.getElementById('count-care').innerText = careers.filter(c => c.category === 'patient-care').length;
-            document.getElementById('count-tech').innerText = careers.filter(c => c.category === 'tech-imaging').length;
-        }
+<div class="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-slate-200 space-y-8 relative overflow-hidden">
+<!-- Quiz Progress -->
+<div>
+<div class="flex justify-between text-xs font-semibold text-slate-500 mb-2">
+<span id="quiz-progress-text">Question 1 of 4</span>
+<span id="quiz-progress-percent">25% Complete</span>
+</div>
+<div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+<div id="quiz-progress-bar" class="bg-teal-600 h-full transition-all duration-300 w-1/4"></div>
+</div>
+</div>
 
-        // FILTER LOGIC
-        function filterCategory(cat) {
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('bg-slate-900', 'text-white', 'border-slate-900');
-                btn.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
-            });
+<!-- Questions Container -->
+<div id="quiz-questions-container">
+<!-- Dynamic Question Content -->
+</div>
 
-            const activeBtn = document.querySelector(`[data-category="${cat}"]`);
-            if(activeBtn) {
-                activeBtn.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
-                activeBtn.classList.add('bg-slate-900', 'text-white', 'border-slate-900');
-            }
+<!-- Quiz Results Container -->
+<div id="quiz-results-container" class="hidden space-y-6">
+<div class="text-center p-6 bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl border border-teal-100">
+<div class="inline-flex p-3 bg-teal-600 text-white rounded-full mb-3 shadow-md">
+<i data-lucide="check-circle" class="w-8 h-8"></i>
+</div>
+<h3 class="text-xl font-bold text-slate-900">Your Recommended MedStep Matches</h3>
+<p class="text-xs sm:text-sm text-slate-600 mt-1">Based on your preferences, these healthcare pathways match your ideal work style and training goals.</p>
+</div>
 
-            if (cat === 'all') renderCareers(careers);
-            else if (cat === 'short-cert' || cat === 'associate') renderCareers(careers.filter(c => c.timeline === cat));
-            else renderCareers(careers.filter(c => c.category === cat));
-        }
+<div id="matched-careers-list" class="space-y-4">
+<!-- Dynamic Matched Cards -->
+</div>
 
-        // SEARCH INPUT LISTENER
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            const filtered = careers.filter(c => 
-                c.title.toLowerCase().includes(query) || 
-                c.summary.toLowerCase().includes(query) ||
-                c.skills.some(s => s.toLowerCase().includes(query))
-            );
-            renderCareers(filtered);
-        });
+<div class="text-center pt-4">
+<button onclick="restartQuiz()" class="px-6 py-2.5 border border-slate-300 rounded-xl text-slate-700 font-semibold text-xs hover:bg-slate-50 transition flex items-center justify-center gap-2 mx-auto">
+<i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Retake MedStep Quiz
+</button>
+</div>
+</div>
+</div>
+</section>
 
-        // MODAL DISPLAY LOGIC
-        function openModal(id) {
-            const c = careers.find(item => item.id === id);
-            if (!c) return;
+<!-- VIEW 3: CAREER ROADMAPS -->
+<section id="view-roadmap" class="hidden space-y-8">
+<div class="text-center max-w-2xl mx-auto space-y-2">
+<h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">MedStep Career Roadmaps</h2>
+<p class="text-slate-600 text-sm">Visualize how entry-level roles transition into 3-to-5 year advanced healthcare professions.</p>
+</div>
 
-            const modalContent = document.getElementById('modalContent');
-            modalContent.innerHTML = `
-                <div class="space-y-6">
-                    <div>
-                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-teal-100 text-teal-800">${c.duration} Program</span>
-                        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">${c.title}</h2>
-                    </div>
+<!-- Track Selector -->
+<div class="flex flex-wrap justify-center gap-3" id="roadmap-selector">
+<button onclick="loadRoadmap('nursing')" id="path-nursing" class="path-btn px-4 py-2 rounded-xl text-xs font-semibold bg-teal-600 text-white border border-teal-600 shadow-sm transition">Nursing & Direct Care Track</button>
+<button onclick="loadRoadmap('imaging')" id="path-imaging" class="path-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent transition">Diagnostic & Imaging Track</button>
+<button onclick="loadRoadmap('cardiac')" id="path-cardiac" class="path-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent transition">Cardiovascular Track</button>
+<button onclick="loadRoadmap('surgical')" id="path-surgical" class="path-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent transition">Surgical & OR Track</button>
+</div>
 
-                    <div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                        <div>
-                            <p class="text-xs text-slate-400 font-semibold">ESTIMATED SALARY</p>
-                            <p class="text-lg font-bold text-slate-800">${c.salary}</p>
-                        </div>
-                        <div>
-                            <p class="text-xs text-slate-400 font-semibold">JOB GROWTH OUTLOOK</p>
-                            <p class="text-lg font-bold text-teal-600">${c.growth}</p>
-                        </div>
-                    </div>
+<!-- Roadmap Canvas -->
+<div class="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-slate-200 min-h-[420px]">
+<div id="roadmap-display" class="relative">
+<!-- Dynamic progression rendering -->
+</div>
+</div>
+</section>
 
-                    <div>
-                        <h4 class="font-bold text-slate-800 text-sm mb-2">Role Summary</h4>
-                        <p class="text-slate-600 text-sm leading-relaxed">${c.summary}</p>
-                    </div>
+</main>
 
-                    <div>
-                        <h4 class="font-bold text-slate-800 text-sm mb-2">Key Skills Developed</h4>
-                        <div class="flex flex-wrap gap-2">
-                            ${c.skills.map(s => `<span class="bg-slate-100 text-slate-700 text-xs font-semibold px-2.5 py-1 rounded-lg">${s}</span>`).join('')}
-                        </div>
-                    </div>
+<!-- Footer -->
+<footer class="bg-white border-t border-slate-200 mt-12 py-10">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+<div class="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-slate-100 pb-6">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9">
+<!-- MedStep Native Inline SVG Logo -->
+<svg viewBox="0 0 200 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+<ellipse cx="88" cy="22" rx="9" ry="14" fill="#00A896" transform="rotate(-10 88 22)"/>
+<ellipse cx="112" cy="29" rx="7.5" ry="11" fill="#028090" transform="rotate(-5 112 29)"/>
+<ellipse cx="131" cy="43" rx="6" ry="9" fill="#028090"/>
+<ellipse cx="145" cy="61" rx="5" ry="7.5" fill="#014f59"/>
+<ellipse cx="154" cy="81" rx="4" ry="6" fill="#014f59"/>
+<path d="M 72 44 C 108 42, 142 75, 134 118 C 128 152, 98 180, 80 180 C 62 180, 46 158, 54 130 C 60 104, 80 88, 80 70 C 80 54, 62 50, 46 60 C 26 74, 20 104, 28 132 C 36 156, 54 174, 70 180" stroke="#028090" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="30" cy="82" r="11" fill="#028090" stroke="#FFFFFF" stroke-width="3"/>
+<circle cx="30" cy="82" r="5" fill="#00A896"/>
+<g transform="translate(76, 116)">
+<path d="M -7 -20 H 7 V -7 H 20 V 7 H 7 V 20 H -7 V 7 H -20 V -7 H -7 Z" fill="#ff7b54"/>
+</g>
+<path d="M 68 102 L 78 88 L 88 102 M 78 88 V 112" stroke="#00A896" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 88 90 L 98 76 L 108 90 M 98 76 V 100" stroke="#ff7b54" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</div>
+<span class="text-lg font-black bg-gradient-to-r from-ocean-700 via-teal-600 to-coral-500 bg-clip-text text-transparent">MedStep</span>
+</div>
 
-                    <div class="border-t border-slate-100 pt-4">
-                        <h4 class="font-bold text-slate-800 text-sm mb-2">Career Advancement Pathway</h4>
-                        <p class="text-teal-700 bg-teal-50 border border-teal-100 p-3 rounded-xl text-xs font-bold">${c.roadmap}</p>
-                    </div>
-                </div>
-            `;
-            document.getElementById('careerModal').classList.remove('hidden');
-            lucide.createIcons();
-        }
+<!-- Footer Navigation Quick Links -->
+<div class="flex flex-wrap items-center justify-center gap-6 text-xs font-semibold text-slate-600">
+<button onclick="switchTab('directory')" class="hover:text-teal-600 transition">Explore Careers</button>
+<button onclick="switchTab('quiz')" class="hover:text-teal-600 transition">Career Matcher</button>
+<button onclick="switchTab('roadmap')" class="hover:text-teal-600 transition">Career Roadmaps</button>
+<a href="patient-care-vs-tech-quiz.html" class="text-coral-600 hover:text-coral-700 font-bold flex items-center gap-1 transition">
+<i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Patient Care vs. Tech Quiz
+</a>
+</div>
+</div>
 
-        function closeModal() {
-            document.getElementById('careerModal').classList.add('hidden');
-        }
+<div class="text-center text-xs text-slate-400 space-y-1">
+<p class="font-bold text-slate-700">MedStep — Helping you take your first step into the medical field.</p>
+<p>Empowering students to explore, plan, and break into high-demand healthcare roles in 2 years or less.</p>
+<p class="pt-2">&copy; MedStep. All rights reserved.</p>
+</div>
+</div>
+</footer>
 
-        // QUIZ LOGIC
-        const quizQuestions = [
-            {
-                q: "What is your primary training timeline goal?",
-                options: [
-                    { label: "Fast entry (< 6 months)", category: "short-cert" },
-                    { label: "Up to 2 years (Associate Degree)", category: "associate" }
-                ]
-            },
-            {
-                q: "Which daily work environment appeals to you most?",
-                options: [
-                    { label: "Direct patient interaction & bedside care", category: "patient-care" },
-                    { label: "Operating specialized diagnostic & imaging tools", category: "tech-imaging" }
-                ]
-            }
-        ];
+<!-- CAREER DETAIL MODAL -->
+<div id="career-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+<div id="modal-panel" class="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-hidden shadow-2xl flex flex-col transform scale-95 transition-transform duration-300">
+<!-- Modal Header -->
+<div id="modal-header" class="p-6 sm:p-8 bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 text-white relative">
+<button onclick="closeModal()" class="absolute top-6 right-6 text-slate-300 hover:text-white p-1.5 rounded-full hover:bg-white/10 transition">
+<i data-lucide="x" class="w-6 h-6"></i>
+</button>
+<div class="space-y-2">
+<span id="modal-category" class="inline-block text-xs font-semibold uppercase tracking-wider text-teal-300 bg-teal-500/20 px-3 py-1 rounded-full border border-teal-500/30">Category</span>
+<h2 id="modal-title" class="text-2xl sm:text-3xl font-extrabold text-white">Career Title</h2>
+<div class="flex flex-wrap items-center gap-4 text-xs text-slate-300 pt-2">
+<span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4 text-teal-400"></i> <span id="modal-edu">Education Time</span></span>
+<span class="flex items-center gap-1.5"><i data-lucide="dollar-sign" class="w-4 h-4 text-emerald-400"></i> <span id="modal-salary">Salary</span></span>
+<span class="flex items-center gap-1.5"><i data-lucide="trending-up" class="w-4 h-4 text-cyan-400"></i> <span id="modal-growth">Growth Rate</span></span>
+</div>
+</div>
+</div>
 
-        let quizStep = 0;
-        let selectedAnswers = [];
+<!-- Modal Scrollable Content -->
+<div class="p-6 sm:p-8 overflow-y-auto space-y-6 custom-scrollbar text-slate-700 text-sm leading-relaxed">
+<div>
+<h3 class="text-base font-bold text-slate-900 flex items-center gap-2 mb-2">
+<i data-lucide="file-text" class="w-4 h-4 text-teal-600"></i> Overview & Role Summary
+</h3>
+<p id="modal-overview" class="text-slate-600 leading-relaxed"></p>
+</div>
 
-        function renderQuiz() {
-            const container = document.getElementById('quizContainer');
-            if (quizStep < quizQuestions.length) {
-                const current = quizQuestions[quizStep];
-                container.innerHTML = `
-                    <div class="space-y-4">
-                        <p class="text-xs font-bold text-teal-400">QUESTION ${quizStep + 1} OF ${quizQuestions.length}</p>
-                        <h3 class="text-xl font-bold text-white">${current.q}</h3>
-                        <div class="grid grid-cols-1 gap-3 pt-2">
-                            ${current.options.map((opt, idx) => `
-                                <button onclick="answerQuiz('${opt.category}')" class="w-full text-left bg-white/5 hover:bg-white/20 border border-white/10 p-4 rounded-xl text-sm font-semibold transition-all flex items-center justify-between group">
-                                    <span>${opt.label}</span>
-                                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:text-white transition-colors"></i>
-                                </button>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-            } else {
-                // Show Quiz Results
-                const matched = careers.filter(c => selectedAnswers.includes(c.timeline) || selectedAnswers.includes(c.category));
-                container.innerHTML = `
-                    <div class="space-y-4 text-center py-4">
-                        <div class="w-12 h-12 bg-teal-500/20 text-teal-400 rounded-full flex items-center justify-center mx-auto">
-                            <i data-lucide="check-circle" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white">Your Top Recommended Matches</h3>
-                        <p class="text-xs text-slate-300">Based on your preferences, here are great roles to consider:</p>
-                        <div class="flex flex-wrap justify-center gap-2 pt-2">
-                            ${matched.map(m => `<span class="bg-teal-500 text-slate-950 font-extrabold text-xs px-3 py-1.5 rounded-lg">${m.title}</span>`).join('')}
-                        </div>
-                        <button onclick="resetQuiz()" class="mt-4 text-xs font-bold text-slate-400 hover:text-white underline">Take Quiz Again</button>
-                    </div>
-                `;
-            }
-            lucide.createIcons();
-        }
+<div>
+<h3 class="text-base font-bold text-slate-900 flex items-center gap-2 mb-2">
+<i data-lucide="check-square" class="w-4 h-4 text-teal-600"></i> Key Daily Responsibilities
+</h3>
+<ul id="modal-duties" class="grid grid-cols-1 sm:grid-cols-2 gap-2 list-none text-slate-600"></ul>
+</div>
 
-        function answerQuiz(cat) {
-            selectedAnswers.push(cat);
-            quizStep++;
-            renderQuiz();
-        }
+<div class="bg-slate-50 rounded-2xl p-4 border border-slate-200">
+<h3 class="text-base font-bold text-slate-900 flex items-center gap-2 mb-2">
+<i data-lucide="graduation-cap" class="w-4 h-4 text-teal-600"></i> Training & Educational Pathway
+</h3>
+<p id="modal-training" class="text-slate-600"></p>
+</div>
 
-        function resetQuiz() {
-            quizStep = 0;
-            selectedAnswers = [];
-            renderQuiz();
-        }
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="bg-emerald-50/60 rounded-2xl p-4 border border-emerald-100">
+<h4 class="font-bold text-emerald-900 flex items-center gap-1.5 mb-2 text-xs uppercase tracking-wider">
+<i data-lucide="thumbs-up" class="w-4 h-4 text-emerald-600"></i> Key Advantages
+</h4>
+<ul id="modal-pros" class="space-y-1.5 text-xs text-emerald-800"></ul>
+</div>
 
-        // INITIALIZE ON LOAD
-        window.addEventListener('DOMContentLoaded', () => {
-            renderCareers(careers);
-            renderQuiz();
-            lucide.createIcons();
-        });
-    </script>
+<div class="bg-rose-50/60 rounded-2xl p-4 border border-rose-100">
+<h4 class="font-bold text-rose-900 flex items-center gap-1.5 mb-2 text-xs uppercase tracking-wider">
+<i data-lucide="alert-circle" class="w-4 h-4 text-rose-600"></i> Challenges to Consider
+</h4>
+<ul id="modal-cons" class="space-y-1.5 text-xs text-rose-800"></ul>
+</div>
+</div>
+
+<div class="border-t border-slate-100 pt-4">
+<h3 class="text-base font-bold text-slate-900 flex items-center gap-2 mb-3">
+<i data-lucide="arrow-up-right" class="w-4 h-4 text-teal-600"></i> Next MedStep Career Steps
+</h3>
+<div id="modal-advancement" class="flex flex-wrap gap-2"></div>
+</div>
+</div>
+
+<!-- Modal Footer -->
+<div class="p-4 sm:p-6 bg-slate-50 border-t border-slate-200 flex justify-end">
+<button onclick="closeModal()" class="px-6 py-2.5 bg-slate-900 text-white rounded-xl text-xs font-semibold hover:bg-slate-800 transition">
+Close Profile
+</button>
+</div>
+</div>
+</div>
+
+<script>
+// MedStep Database of 2-Year or Less Healthcare Careers
+const careers = [
+{
+id: 'cna',
+title: 'Certified Nursing Assistant (CNA)',
+category: 'Direct Patient Care',
+eduCategory: 'short',
+eduTime: '4 - 12 Weeks',
+salary: '$35,000 - $44,000',
+growth: '+8% (Faster than avg)',
+overview: 'CNAs play a vital front-line role in healthcare, delivering essential bedside assistance and personal care to hospitalized patients and nursing home residents.',
+duties: ['Assisting patients with hygiene, bathing, & meals', 'Measuring vital signs (blood pressure, pulse, temp)', 'Assisting with patient transfers and mobility', 'Promptly reporting clinical changes to Registered Nurses'],
+training: 'State-approved certification course (4–12 weeks) plus passing state practical and written exams.',
+pros: ['Fastest entry into clinical patient care', 'Invaluable clinical hands-on hours for future nursing applications', 'High job security across hospitals & care facilities'],
+cons: ['Physically demanding work', 'Exposure to bodily fluids', 'Lower starting wage floor'],
+advancement: ['Patient Care Technician (PCT)', 'Licensed Practical Nurse (LPN)', 'Registered Nurse (RN)'],
+quizTags: { env: 'hands-on', time: 'short', tech: 'low', patient: 'high' }
+},
+{
+id: 'pct',
+title: 'Patient Care Technician (PCT)',
+category: 'Direct Patient Care',
+eduCategory: 'short',
+eduTime: '8 - 16 Weeks',
+salary: '$38,000 - $48,000',
+growth: '+9% (Faster than avg)',
+overview: 'PCTs are advanced nursing assistants in acute hospital settings equipped to perform expanded clinical procedures including telemetry and blood draws.',
+duties: ['Drawing diagnostic blood samples (venipuncture)', 'Setting up 12-lead diagnostic EKGs', 'Removing IV catheters and urinary lines', 'Assisting nurses in emergency departments and ICUs'],
+training: 'CNA certification plus specialized hospital clinical training (1–4 months) or dedicated PCT certificate.',
+pros: ['High exposure to hospital acute care units', 'Broader skill set than traditional CNA roles', 'Great networking opportunities with clinical directors'],
+cons: ['Fast-paced hospital floor environment', 'Requires shift work including nights/weekends', 'Must maintain dual skill competencies'],
+advancement: ['ER Technician', 'Telemetry Monitor Tech', 'Registered Nurse (RN)'],
+quizTags: { env: 'hands-on', time: 'short', tech: 'medium', patient: 'high' }
+},
+{
+id: 'ma',
+title: 'Medical Assistant (MA)',
+category: 'Direct Patient Care',
+eduCategory: 'cert',
+eduTime: '4 - 12 Months',
+salary: '$40,000 - $50,000',
+growth: '+14% (Much faster than avg)',
+overview: 'Medical Assistants streamline doctor offices and outpatient clinics by balancing clinical patient preparation with office administration.',
+duties: ['Rooming patients and taking chief complaint notes', 'Administering routine vaccinations & medications', 'Processing medical referrals and lab orders', 'Assisting doctors during minor outpatient procedures'],
+training: 'Post-secondary certificate program (4–12 months) leading to Certified Medical Assistant (CMA) status.',
+pros: ['Balanced split between clinical and desk tasks', 'Predictable clinic schedule (usually Mon–Fri day shift)', 'High job demand nationwide'],
+cons: ['Requires rapid task switching in busy clinics', 'Salary cap without higher clinical credentials'],
+advancement: ['Lead Medical Assistant', 'Clinic Manager', 'Physician Assistant (PA)'],
+quizTags: { env: 'balanced', time: 'cert', tech: 'medium', patient: 'medium' }
+},
+{
+id: 'phleb',
+title: 'Phlebotomist',
+category: 'Admin & Lab',
+eduCategory: 'short',
+eduTime: '1 - 3 Months',
+salary: '$38,000 - $47,000',
+growth: '+10% (Faster than avg)',
+overview: 'Phlebotomists specialize in precise venipuncture and capillary blood collection for diagnostic lab testing and blood donations.',
+duties: ['Performing blood draws via venipuncture', 'Labeling specimens accurately for lab analysis', 'Reassuring anxious patients prior to needle draws', 'Maintaining strict sterile field standards'],
+training: '1 to 3 month training certificate program + CPT national exam.',
+pros: ['Rapid certification timeline', 'Focus on a single specialized technical skill', 'Diverse job settings (labs, blood centers, hospitals)'],
+cons: ['Repetitive daily procedures', 'Working with needles and blood daily', 'High accuracy pressure under tight diagnostic timelines'],
+advancement: ['Lead Phlebotomist', 'Medical Lab Technician (MLT)', 'Donor Center Supervisor'],
+quizTags: { env: 'lab', time: 'short', tech: 'medium', patient: 'medium' }
+},
+{
+id: 'ekg',
+title: 'EKG / Telemetry Technician',
+category: 'Tech & Diagnostic',
+eduCategory: 'short',
+eduTime: '4 - 8 Weeks',
+salary: '$42,000 - $54,000',
+growth: '+7% (Average)',
+overview: 'EKG and Telemetry Techs place cardiac leads, run rhythm prints, and continuously monitor hospital telemetry screens for dangerous arrhythmias.',
+duties: ['Applying 12-lead EKG electrodes accurately', 'Monitoring hospital telemetry cardiac monitors continuously', 'Immediately alerting cardiac teams to life-threatening rhythms', 'Conducting cardiac stress testing setups'],
+training: 'Short certificate course or hospital-based training + Certified EKG Technician (CET) exam.',
+pros: ['Low physical strain compared to bedside nursing', 'High technology and data focus', 'Crucial life-saving monitoring role'],
+cons: ['High-stress screen monitoring focus required', 'Long periods sitting in telemetry monitor rooms'],
+advancement: ['Cardiac Monitor Lead', 'Cardiovascular Technologist', 'Electrophysiology Tech'],
+quizTags: { env: 'lab', time: 'short', tech: 'high', patient: 'low' }
+},
+{
+id: 'emt',
+title: 'Emergency Medical Technician (EMT)',
+category: 'Tech & Diagnostic',
+eduCategory: 'short',
+eduTime: '3 - 6 Months',
+salary: '$38,000 - $48,000',
+growth: '+7% (Average)',
+overview: 'EMTs deliver immediate out-of-hospital emergency care and transport for critical patients in ambulances and emergency response units.',
+duties: ['Responding to 911 emergency medical calls', 'Performing CPR and basic airway management', 'Bandaging wounds and splinting bone fractures', 'Transporting patients safely to hospital ERs'],
+training: '150–200 hour EMT course followed by NREMT cognitive and psychomotor certification exams.',
+pros: ['Thrilling, high-action work environment', 'Invaluable real-world emergency medicine exposure', 'Strong bridge into Paramedic or Firefighting tracks'],
+cons: ['Physically demanding and unpredictable conditions', 'High stress and shift work'],
+advancement: ['Paramedic', 'ER Technician', 'Flight Paramedic'],
+quizTags: { env: 'hands-on', time: 'short', tech: 'medium', patient: 'high' }
+},
+{
+id: 'lpn',
+title: 'Licensed Practical Nurse (LPN / LVN)',
+category: 'Direct Patient Care',
+eduCategory: 'cert',
+eduTime: '12 Months',
+salary: '$50,000 - $62,000',
+growth: '+6% (Average)',
+overview: 'LPNs provide routine direct nursing care, administer medications, and monitor patient health under the direction of RNs or physicians.',
+duties: ['Administering oral and topical medications', 'Monitoring vitals and updating medical charts', 'Changing dressings and caring for wounds', 'Supervising CNAs in long-term care settings'],
+training: '1-year practical nursing diploma program + passing NCLEX-PN exam.',
+pros: ['Full nursing license in just 1 year', 'Solid income increase over entry assistant roles', 'Great bridge programs to transition to RN (LPN-to-RN)'],
+cons: ['Restricted scope of practice compared to RNs', 'Higher physical demand in long-term care centers'],
+advancement: ['LPN-to-RN Bridge Student', 'Nurse Supervisor (LTC)', 'Registered Nurse (RN)'],
+quizTags: { env: 'hands-on', time: 'cert', tech: 'medium', patient: 'high' }
+},
+{
+id: 'paramedic',
+title: 'Paramedic',
+category: 'Tech & Diagnostic',
+eduCategory: 'assoc',
+eduTime: '1 - 2 Years',
+salary: '$52,000 - $70,000',
+growth: '+7% (Average)',
+overview: 'Paramedics are advanced pre-hospital clinicians capable of performing invasive emergency procedures, cardiac monitoring, and medication administration.',
+duties: ['Administering emergency IV medications and narcotics', 'Performing advanced airway intubation', 'Interpreting 12-lead EKGs in emergency settings', 'Directing trauma team protocols on scene'],
+training: 'EMT certification required first, followed by 1,000+ hours of advanced Paramedic training or Associate Degree + NREMT-P exam.',
+pros: ['High level of clinical autonomy in pre-hospital care', 'Dynamic, non-desk work environment', 'Critical life-saving impact'],
+cons: ['High emotional and physical demands', 'Exposure to dangerous field situations'],
+advancement: ['Flight Paramedic', 'EMS Battalion Chief', 'PA / Emergency RN'],
+quizTags: { env: 'hands-on', time: 'assoc', tech: 'high', patient: 'high' }
+},
+{
+id: 'rn',
+title: 'Registered Nurse (ADN / RN)',
+category: 'Direct Patient Care',
+eduCategory: 'assoc',
+eduTime: '2 Years (Degree)',
+salary: '$78,000 - $98,000',
+growth: '+6% (Faster than avg)',
+overview: 'Registered Nurses coordinate complex patient care, administer intravenous treatments, and direct patient care plans across all healthcare settings.',
+duties: ['Assessing complex patient conditions and vital trends', 'Administering IV push medications and blood transfusions', 'Operating life-support machinery in acute units', 'Educating patients and families on post-discharge care'],
+training: '2-Year Associate Degree in Nursing (ADN) + passing the NCLEX-RN state board exam.',
+pros: ['Unmatched career mobility and flexible shift choices', 'High compensation straight out of a 2-year degree', 'Endless specialty choices (ICU, ER, Flight, Pediatrics)'],
+cons: ['High physical and emotional stress', '12-hour shifts including nights, weekends, and holidays'],
+advancement: ['BSN Nurse Manager', 'Nurse Practitioner (NP)', 'Nurse Anesthetist (CRNA)'],
+quizTags: { env: 'hands-on', time: 'assoc', tech: 'medium', patient: 'high' }
+},
+{
+id: 'radtech',
+title: 'Radiologic Technologist (X-Ray Tech)',
+category: 'Tech & Diagnostic',
+eduCategory: 'assoc',
+eduTime: '2 Years (Degree)',
+salary: '$65,000 - $84,000',
+growth: '+6% (Average)',
+overview: 'Radiologic Technologists operate X-ray and computed tomography equipment to capture anatomical images for diagnostic evaluation.',
+duties: ['Positioning patients precisely for diagnostic X-rays', 'Operating radiation equipment adhering to safety standards', 'Ensuring radiation lead shielding protection for patients', 'Assisting radiologists with diagnostic fluoroscopy'],
+training: '2-year Associate of Applied Science (AAS) in Radiologic Technology + ARRT registry certification.',
+pros: ['Excellent starting salary for a 2-year degree', 'Clean, technology-focused medical environment', 'Direct pathway to CT Scan or MRI certifications'],
+cons: ['Radiation exposure requiring strict adherence to protocols', 'Lifting and positioning immobile patients'],
+advancement: ['CT Scan Technologist', 'MRI Technologist', 'Radiology Operations Director'],
+quizTags: { env: 'lab', time: 'assoc', tech: 'high', patient: 'medium' }
+},
+{
+id: 'sonographer',
+title: 'Diagnostic Ultrasound Tech',
+category: 'Tech & Diagnostic',
+eduCategory: 'assoc',
+eduTime: '18 - 24 Months',
+salary: '$78,000 - $100,000',
+growth: '+10% (Faster than avg)',
+overview: 'Sonographers utilize high-frequency sound waves to produce detailed diagnostic images of internal organs, tissue, blood flow, and fetuses.',
+duties: ['Operating ultrasound transducers to view internal anatomy', 'Analyzing image quality and preliminary findings for doctors', 'Explaining non-invasive scan procedures to patients', 'Maintaining acoustic probe equipment'],
+training: '18-24 month Associate Degree accredited by CAAHEP + ARDMS registry exam.',
+pros: ['Highest paying 2-year healthcare career path', 'Zero radiation involved in procedures', 'Diverse specialties (Cardiac, Vascular, OB/GYN)'],
+cons: ['High rate of repetitive wrist and shoulder strain', 'Requires fine operator dexterity and intense visual focus'],
+advancement: ['Echocardiographer', 'Vascular Specialist', 'Ultrasound Lab Director'],
+quizTags: { env: 'lab', time: 'assoc', tech: 'high', patient: 'medium' }
+},
+{
+id: 'surgtech',
+title: 'Surgical Technologist',
+category: 'Tech & Diagnostic',
+eduCategory: 'assoc',
+eduTime: '12 - 24 Months',
+salary: '$54,000 - $70,000',
+growth: '+5% (Average)',
+overview: 'Surgical Techs prepare sterile operating rooms, organize surgical instruments, and hand tools directly to surgeons during operations.',
+duties: ['Sterilizing and setting up surgical instrument tables', 'Assisting surgical team members with sterile gowns and gloves', 'Passing instruments, scalpels, and sponges to surgeons', 'Maintaining strict sterile field compliance in the OR'],
+training: '12 to 24 month CAAHEP-accredited Associate degree or diploma + CST exam.',
+pros: ['Direct hands-on involvement in operating room surgeries', 'High-energy, team-centered work environment', 'No post-procedure medical charting desk work'],
+cons: ['Standing in place for hours during long operations', 'High stress during sudden surgical complications'],
+advancement: ['Certified First Assistant (CFA)', 'OR Materials Manager', 'Surgical Equipment Specialist'],
+quizTags: { env: 'hands-on', time: 'assoc', tech: 'high', patient: 'low' }
+},
+{
+id: 'scribe',
+title: 'Medical Scribe',
+category: 'Admin & Lab',
+eduCategory: 'short',
+eduTime: '1 - 3 Months',
+salary: '$32,000 - $40,000',
+growth: '+8% (Average)',
+overview: 'Medical Scribes accompany physicians during clinical exams to document doctor-patient encounters in real time inside electronic health records.',
+duties: ['Transcribing physical exam findings into EHR software', 'Tracking laboratory and diagnostic imaging results', 'Drafting clinical discharge summaries for doctor review', 'Optimizing physician workflow efficiency'],
+training: 'High school diploma + specialized medical terminology and scribe training program.',
+pros: ['Premier shadowing and networking opportunity for pre-med/PA students', 'Deep exposure to medical terminology and diagnostic logic', 'Low physical demand'],
+cons: ['Entry-level pay floor', 'High typing speed and intense focus required'],
+advancement: ['Chief Scribe', 'Medical Assistant', 'Physician / PA Student'],
+quizTags: { env: 'balanced', time: 'short', tech: 'medium', patient: 'low' }
+}
+];
+
+// MedStep Roadmaps Data
+const roadmaps = {
+nursing: {
+title: "Nursing & Direct Care Track",
+steps: [
+{ title: "Step 1: CNA / PCT", time: "1 - 3 Months Training", pay: "$35k - $48k", desc: "Gain essential hospital floor experience, vitals skills, and direct patient interaction." },
+{ title: "Step 2: LPN / LVN", time: "12 Months Diploma", pay: "$50k - $62k", desc: "Administer medications, manage patient care plans, and lead floor assistant teams." },
+{ title: "Step 3: ADN-RN", time: "2-Year Associate Degree", pay: "$78k - $98k", desc: "Coordinate acute hospital care, administer IV therapies, and lead specialty units." },
+{ title: "Step 4: BSN / NP", time: "Bachelor & Master's Degree", pay: "$115k - $145k+", desc: "Diagnose conditions, prescribe medications, or direct hospital nursing departments." }
+]
+},
+imaging: {
+title: "Diagnostic Imaging Track",
+steps: [
+{ title: "Step 1: Imaging Transport / Assistant", time: "On-the-Job / 1 Month", pay: "$35k - $42k", desc: "Learn diagnostic radiology department workflows and safe patient positioning." },
+{ title: "Step 2: Radiologic Tech (X-Ray)", time: "2-Year Associate Degree", pay: "$65k - $84k", desc: "Perform diagnostic radiographic scans and operate high-tech X-ray equipment." },
+{ title: "Step 3: CT / MRI Technologist", time: "6-12 Months Cert Add-On", pay: "$82k - $102k", desc: "Specialize in advanced cross-sectional computed tomography or magnetic scans." },
+{ title: "Step 4: Radiology Operations Director", time: "Bachelor / Management", pay: "$115k+", desc: "Manage hospital diagnostic department budgets, safety protocols, and imaging teams." }
+]
+},
+cardiac: {
+title: "Cardiovascular Track",
+steps: [
+{ title: "Step 1: EKG / Telemetry Tech", time: "1 - 2 Months Training", pay: "$42k - $54k", desc: "Monitor cardiac screens, identify heart arrhythmias, and conduct 12-lead EKGs." },
+{ title: "Step 2: Cardiovascular Tech", time: "2-Year Associate Degree", pay: "$68k - $88k", desc: "Assist interventional cardiologists inside cardiac catheterization labs during procedures." },
+{ title: "Step 3: Cardiac Sonographer", time: "Specialist Certification", pay: "$85k - $105k", desc: "Perform echocardiograms to analyze heart muscle structure and valve function." },
+{ title: "Step 4: Electrophysiology (EP) Specialist", time: "Advanced Certification", pay: "$115k+", desc: "Specialize in cardiac electrophysiology and pacemaker/defibrillator implant monitoring." }
+]
+},
+surgical: {
+title: "Surgical & Operating Room Track",
+steps: [
+{ title: "Step 1: Sterile Processing Tech", time: "3 - 6 Months Training", pay: "$40k - $52k", desc: "Decontaminate, assemble, and inspect complex surgical instrument sets for the OR." },
+{ title: "Step 2: Surgical Technologist", time: "12 - 24 Months Degree", pay: "$54k - $70k", desc: "Maintain surgical sterile fields and hand instruments directly to operating surgeons." },
+{ title: "Step 3: Certified First Assistant (CFA)", time: "1 Year Surgical Add-On", pay: "$78k - $98k", desc: "Actively assist surgeons with suturing, tissue handling, and bleeding control during operations." },
+{ title: "Step 4: OR Surgical Services Manager", time: "Management / BSN", pay: "$110k+", desc: "Direct operating room logistics, surgical scheduling, and supply chain operations." }
+]
+}
+};
+
+// MedStep Embedded Quiz Questions
+const quizQuestions = [
+{
+q: "What type of daily work environment sounds best to you?",
+options: [
+{ text: "Active hands-on bedside patient care", tag: { env: 'hands-on' } },
+{ text: "Tech-focused, working with diagnostic machines or lab data", tag: { env: 'lab' } },
+{ text: "Fast-paced emergency or operating room environment", tag: { env: 'hands-on' } },
+{ text: "Balanced routine with clinic visits or scribing/admin", tag: { env: 'balanced' } }
+]
+},
+{
+q: "How fast do you want to finish training and enter the workforce?",
+options: [
+{ text: "Fastest possible! (Under 3 - 6 months)", tag: { time: 'short' } },
+{ text: "Moderate timeline (6 to 12 months)", tag: { time: 'cert' } },
+{ text: "I can invest 1 to 2 years to maximize starting pay", tag: { time: 'assoc' } }
+]
+},
+{
+q: "How comfortable are you with direct physical patient contact?",
+options: [
+{ text: "Very comfortable — I love helping patients directly", tag: { patient: 'high' } },
+{ text: "Moderate — Brief tests, blood draws, or imaging procedures are fine", tag: { patient: 'medium' } },
+{ text: "Prefer minimal direct contact / tech & scribing focus", tag: { patient: 'low' } }
+]
+},
+{
+q: "How interested are you in complex medical technology & machines?",
+options: [
+{ text: "Extremely interested — I love high-tech machinery and computers", tag: { tech: 'high' } },
+{ text: "Moderately interested — Standard medical devices are fine", tag: { tech: 'medium' } },
+{ text: "Less interested — I prefer personal nursing care or basic tools", tag: { tech: 'low' } }
+]
+}
+];
+
+let currentEduFilter = 'all';
+let currentCatFilter = 'all';
+let currentQuizIndex = 0;
+let quizAnswers = [];
+
+function switchTab(tabId) {
+document.querySelectorAll('header nav button').forEach(btn => {
+btn.classList.remove('tab-active');
+btn.classList.add('text-slate-500');
+});
+const activeNav = document.getElementById(`tab-${tabId}`);
+if (activeNav) {
+activeNav.classList.add('tab-active');
+activeNav.classList.remove('text-slate-500');
+}
+
+document.getElementById('view-directory').classList.add('hidden');
+document.getElementById('view-quiz').classList.add('hidden');
+document.getElementById('view-roadmap').classList.add('hidden');
+
+document.getElementById(`view-${tabId}`).classList.remove('hidden');
+
+if (tabId === 'roadmap') {
+loadRoadmap('nursing');
+}
+window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderCareerCards(data) {
+const grid = document.getElementById('career-grid');
+const noResults = document.getElementById('no-results');
+grid.innerHTML = '';
+
+document.getElementById('active-count').innerText = `${data.length} Roles`;
+
+if (data.length === 0) {
+noResults.classList.remove('hidden');
+return;
+} else {
+noResults.classList.add('hidden');
+}
+
+data.forEach(item => {
+const card = document.createElement('div');
+card.className = "bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80 hover:shadow-md hover:border-teal-300 transition group flex flex-col justify-between cursor-pointer";
+card.onclick = () => openModal(item.id);
+
+card.innerHTML = `
+<div class="space-y-3">
+<div class="flex items-center justify-between gap-2">
+<span class="text-[11px] font-bold uppercase tracking-wider text-teal-700 bg-teal-50 px-2.5 py-1 rounded-lg border border-teal-100">
+${item.category}
+</span>
+<span class="text-xs text-slate-500 font-medium flex items-center gap-1">
+<i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i> ${item.eduTime}
+</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900 group-hover:text-teal-600 transition flex items-center justify-between">
+${item.title}
+<i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 group-hover:text-teal-600 group-hover:translate-x-0.5 transition"></i>
+</h3>
+<p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+${item.overview}
+</p>
+</div>
+
+<div class="pt-5 mt-5 border-t border-slate-100 flex items-center justify-between text-xs font-semibold">
+<div class="text-slate-700">
+<span class="block text-[10px] text-slate-400 uppercase">Est. Pay</span>
+${item.salary}
+</div>
+<div class="text-right text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg">
+<span class="block text-[10px] text-emerald-500 uppercase">Outlook</span>
+${item.growth.split(' ')[0]}
+</div>
+</div>
+`;
+grid.appendChild(card);
+});
+
+lucide.createIcons();
+}
+
+function filterCareers() {
+const search = document.getElementById('search-input').value.toLowerCase();
+
+const filtered = careers.filter(c => {
+const matchesSearch = c.title.toLowerCase().includes(search) ||
+c.overview.toLowerCase().includes(search) ||
+c.duties.some(d => d.toLowerCase().includes(search));
+
+const matchesEdu = currentEduFilter === 'all' || c.eduCategory === currentEduFilter;
+const matchesCat = currentCatFilter === 'all' || c.category === currentCatFilter;
+
+return matchesSearch && matchesEdu && matchesCat;
+});
+
+renderCareerCards(filtered);
+}
+
+function toggleEduFilter(val) {
+currentEduFilter = val;
+document.querySelectorAll('#edu-filter-group button').forEach(btn => {
+if (btn.dataset.edu === val) {
+btn.className = "edu-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-teal-600 text-white border border-teal-600 shadow-sm transition";
+} else {
+btn.className = "edu-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 border border-transparent transition";
+}
+});
+filterCareers();
+}
+
+function toggleCatFilter(val) {
+currentCatFilter = val;
+document.querySelectorAll('#cat-filter-group button').forEach(btn => {
+if (btn.dataset.cat === val) {
+btn.className = "cat-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-teal-600 text-white border border-teal-600 shadow-sm transition";
+} else {
+btn.className = "cat-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 border border-transparent transition";
+}
+});
+filterCareers();
+}
+
+function resetFilters() {
+document.getElementById('search-input').value = '';
+toggleEduFilter('all');
+toggleCatFilter('all');
+}
+
+function openModal(id) {
+const item = careers.find(c => c.id === id);
+if (!item) return;
+
+document.getElementById('modal-title').innerText = item.title;
+document.getElementById('modal-category').innerText = item.category;
+document.getElementById('modal-edu').innerText = item.eduTime;
+document.getElementById('modal-salary').innerText = item.salary;
+document.getElementById('modal-growth').innerText = item.growth;
+document.getElementById('modal-overview').innerText = item.overview;
+document.getElementById('modal-training').innerText = item.training;
+
+document.getElementById('modal-duties').innerHTML = item.duties.map(d => `<li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-teal-600 shrink-0 mt-0.5"></i> <span>${d}</span></li>`).join('');
+document.getElementById('modal-pros').innerHTML = item.pros.map(p => `<li class="flex items-start gap-1.5"><i data-lucide="plus" class="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5"></i> ${p}</li>`).join('');
+document.getElementById('modal-cons').innerHTML = item.cons.map(c => `<li class="flex items-start gap-1.5"><i data-lucide="minus" class="w-3.5 h-3.5 text-rose-600 shrink-0 mt-0.5"></i> ${c}</li>`).join('');
+document.getElementById('modal-advancement').innerHTML = item.advancement.map(a => `<span class="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-semibold rounded-lg border border-slate-200">${a}</span>`).join('');
+
+const modal = document.getElementById('career-modal');
+const panel = document.getElementById('modal-panel');
+
+modal.classList.remove('hidden');
+setTimeout(() => {
+modal.classList.remove('opacity-0');
+panel.classList.remove('scale-95');
+panel.classList.add('scale-100');
+}, 10);
+
+lucide.createIcons();
+}
+
+function closeModal() {
+const modal = document.getElementById('career-modal');
+const panel = document.getElementById('modal-panel');
+
+modal.classList.add('opacity-0');
+panel.classList.remove('scale-100');
+panel.classList.add('scale-95');
+
+setTimeout(() => {
+modal.classList.add('hidden');
+}, 300);
+}
+
+function renderQuizQuestion() {
+const q = quizQuestions[currentQuizIndex];
+const container = document.getElementById('quiz-questions-container');
+
+const pct = Math.round(((currentQuizIndex + 1) / quizQuestions.length) * 100);
+document.getElementById('quiz-progress-text').innerText = `Question ${currentQuizIndex + 1} of ${quizQuestions.length}`;
+document.getElementById('quiz-progress-percent').innerText = `${pct}% Complete`;
+document.getElementById('quiz-progress-bar').style.width = `${pct}%`;
+
+container.innerHTML = `
+<div class="space-y-6">
+<h3 class="text-xl font-bold text-slate-900">${q.q}</h3>
+<div class="grid grid-cols-1 gap-3">
+${q.options.map((opt, idx) => `
+<button onclick="selectQuizOption(${idx})" class="w-full text-left p-4 rounded-2xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50/50 transition flex items-center justify-between group">
+<span class="text-sm font-medium text-slate-700 group-hover:text-teal-900">${opt.text}</span>
+<i data-lucide="circle" class="w-5 h-5 text-slate-300 group-hover:text-teal-600"></i>
+</button>
+`).join('')}
+</div>
+</div>
+`;
+lucide.createIcons();
+}
+
+function selectQuizOption(index) {
+const opt = quizQuestions[currentQuizIndex].options[index];
+quizAnswers.push(opt.tag);
+
+if (currentQuizIndex < quizQuestions.length - 1) {
+currentQuizIndex++;
+renderQuizQuestion();
+} else {
+calculateQuizResults();
+}
+}
+
+function calculateQuizResults() {
+document.getElementById('quiz-questions-container').classList.add('hidden');
+document.getElementById('quiz-results-container').classList.remove('hidden');
+
+const mergedTags = Object.assign({}, ...quizAnswers);
+
+const scored = careers.map(c => {
+let score = 0;
+if (c.quizTags.env === mergedTags.env) score += 3;
+if (c.quizTags.time === mergedTags.time) score += 3;
+if (c.quizTags.patient === mergedTags.patient) score += 2;
+if (c.quizTags.tech === mergedTags.tech) score += 2;
+return { ...c, score };
+});
+
+scored.sort((a, b) => b.score - a.score);
+const topMatches = scored.slice(0, 3);
+
+const list = document.getElementById('matched-careers-list');
+list.innerHTML = topMatches.map(item => `
+<div onclick="openModal('${item.id}')" class="p-5 bg-white rounded-2xl border border-slate-200 hover:border-teal-400 hover:shadow-md transition cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-bold uppercase tracking-wider text-teal-700 bg-teal-50 px-2 py-0.5 rounded">
+${item.category}
+</span>
+<span class="text-xs text-slate-400 font-medium">${item.eduTime}</span>
+</div>
+<h4 class="text-lg font-bold text-slate-900">${item.title}</h4>
+<p class="text-xs text-slate-500 line-clamp-1">${item.overview}</p>
+</div>
+<button class="px-4 py-2 bg-teal-600 text-white rounded-xl text-xs font-semibold hover:bg-teal-700 transition shrink-0">
+View Role Profile
+</button>
+</div>
+`).join('');
+
+lucide.createIcons();
+}
+
+function restartQuiz() {
+currentQuizIndex = 0;
+quizAnswers = [];
+document.getElementById('quiz-questions-container').classList.remove('hidden');
+document.getElementById('quiz-results-container').classList.add('hidden');
+renderQuizQuestion();
+}
+
+function loadRoadmap(pathKey) {
+document.querySelectorAll('#roadmap-selector button').forEach(btn => {
+if (btn.id === `path-${pathKey}`) {
+btn.className = "path-btn px-4 py-2 rounded-xl text-xs font-semibold bg-teal-600 text-white border border-teal-600 shadow-sm transition";
+} else {
+btn.className = "path-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent transition";
+}
+});
+
+const data = roadmaps[pathKey];
+const display = document.getElementById('roadmap-display');
+
+display.innerHTML = `
+<div class="space-y-8">
+<div class="border-b border-slate-100 pb-4">
+<h3 class="text-xl font-bold text-slate-900">${data.title}</h3>
+<p class="text-xs text-slate-500 mt-0.5">Sequential step-by-step career pathway map</p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
+${data.steps.map((step, idx) => `
+<div class="bg-slate-50 rounded-2xl p-5 border border-slate-200/80 relative flex flex-col justify-between space-y-4 hover:border-teal-300 hover:bg-white transition">
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<span class="w-6 h-6 rounded-full bg-teal-600 text-white text-xs font-bold flex items-center justify-center">
+${idx + 1}
+</span>
+<span class="text-[10px] font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-100">
+${step.time}
+</span>
+</div>
+<h4 class="text-sm font-bold text-slate-900 pt-1">${step.title}</h4>
+<p class="text-xs text-slate-500 leading-relaxed">${step.desc}</p>
+</div>
+
+<div class="pt-3 border-t border-slate-200/60 flex items-center justify-between text-xs font-semibold">
+<span class="text-slate-400 text-[10px] uppercase">Est. Pay</span>
+<span class="text-emerald-600 font-bold">${step.pay}</span>
+</div>
+</div>
+`).join('')}
+</div>
+</div>
+`;
+}
+
+// Initialize Web Application on Page Load
+window.onload = function() {
+renderCareerCards(careers);
+renderQuizQuestion();
+lucide.createIcons();
+};
+</script>
 </body>
 </html>
