@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Care vs. Medical Tech Quiz | MedStep</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        teal: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            500: '#14b8a6',
+                            600: '#00A896',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        },
+                        ocean: {
+                            500: '#028090',
+                            600: '#026875',
+                            700: '#014f59',
+                        },
+                        coral: {
+                            400: '#ff7b54',
+                            500: '#f95738',
+                            600: '#e03e1a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="h-full text-slate-800 font-sans flex flex-col antialiased selection:bg-teal-100 selection:text-teal-800">
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- MedStep Brand Logo & Title -->
+                <a href="index.html" class="flex items-center gap-3.5 group">
+                    <div class="relative w-12 h-12 flex-shrink-0 transition-transform group-hover:scale-105">
+                        <!-- MedStep Native Inline SVG Logo -->
+                        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-sm" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- 5 Teal Footprint Toes -->
+                            <ellipse cx="88" cy="22" rx="9" ry="14" fill="#00A896" transform="rotate(-10 88 22)"/>
+                            <ellipse cx="112" cy="29" rx="7.5" ry="11" fill="#028090" transform="rotate(-5 112 29)"/>
+                            <ellipse cx="131" cy="43" rx="6" ry="9" fill="#028090"/>
+                            <ellipse cx="145" cy="61" rx="5" ry="7.5" fill="#014f59"/>
+                            <ellipse cx="154" cy="81" rx="4" ry="6" fill="#014f59"/>
+
+                            <!-- Main Stethoscope Ribbon Loop Footprint -->
+                            <path d="M 72 44 
+                                     C 108 42, 142 75, 134 118 
+                                     C 128 152, 98 180, 80 180 
+                                     C 62 180, 46 158, 54 130 
+                                     C 60 104, 80 88, 80 70 
+                                     C 80 54, 62 50, 46 60 
+                                     C 26 74, 20 104, 28 132 
+                                     C 36 156, 54 174, 70 180" 
+                                  stroke="#028090" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+
+                            <!-- Stethoscope Earpiece/Bell Chestpiece -->
+                            <circle cx="30" cy="82" r="11" fill="#028090" stroke="#FFFFFF" stroke-width="3"/>
+                            <circle cx="30" cy="82" r="5" fill="#00A896"/>
+                            
+                            <!-- Bright Orange Medical Cross -->
+                            <g transform="translate(76, 116)">
+                                <path d="M -7 -20 H 7 V -7 H 20 V 7 H 7 V 20 H -7 V 7 H -20 V -7 H -7 Z" fill="#ff7b54"/>
+                            </g>
+
+                            <!-- Dual Upward Growth Arrows inside Footprint Arch -->
+                            <path d="M 68 102 L 78 88 L 88 102 M 78 88 V 112" stroke="#00A896" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M 88 90 L 98 76 L 108 90 M 98 76 V 100" stroke="#ff7b54" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-black bg-gradient-to-r from-ocean-700 via-teal-600 to-coral-500 bg-clip-text text-transparent tracking-tight">MedStep</span>
+                        <p class="hidden sm:block text-[11px] text-slate-500 font-semibold tracking-tight -mt-0.5">
+                            Helping you take your first step into the medical field.
+                        </p>
+                    </div>
+                </a>
+
+                <!-- Back to Explorer Button -->
+                <a href="index.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-teal-50 hover:text-teal-700 border border-slate-200 transition">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    <span>Back to Main Platform</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+
+        <!-- Hero Title Banner -->
+        <div class="text-center space-y-3 mb-8">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-teal-50 text-teal-700 border border-teal-200">
+                <i data-lucide="sparkles" class="w-4 h-4 text-coral-500"></i> MedStep Career Focus Analyzer
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                Patient Care vs. Medical Tech
+            </h1>
+            <p class="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+                Are you energized by hands-on patient relationships or operating advanced diagnostic machinery? Take this 5-question assessment to discover your optimal healthcare career pathway.
+            </p>
+        </div>
+
+        <!-- Quiz Container Card -->
+        <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-slate-200/90 relative overflow-hidden">
+            
+            <!-- Progress Tracker -->
+            <div id="quiz-progress-section" class="mb-8">
+                <div class="flex justify-between items-center text-xs font-semibold text-slate-500 mb-2">
+                    <span id="quiz-step-label" class="text-teal-700 font-bold">Question 1 of 5</span>
+                    <span id="quiz-percent-label">20% Complete</span>
+                </div>
+                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                    <div id="quiz-progress-bar" class="bg-gradient-to-r from-teal-500 to-ocean-600 h-full transition-all duration-300 w-1/5"></div>
+                </div>
+            </div>
+
+            <!-- Dynamic Question Display Area -->
+            <div id="question-card" class="space-y-6">
+                <!-- Dynamically Populated via JS -->
+            </div>
+
+            <!-- Results Container (Initially Hidden) -->
+            <div id="results-card" class="hidden space-y-8">
+                <!-- Header Results Banner -->
+                <div id="result-header" class="p-6 sm:p-8 rounded-2xl border text-center space-y-3">
+                    <!-- Dynamic Result Header -->
+                </div>
+
+                <!-- Career Pathway Comparison Breakdown -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="compass" class="w-5 h-5 text-teal-600"></i>
+                        Recommended Healthcare Roles For You
+                    </h3>
+                    <div id="recommended-roles-list" class="grid grid-cols-1 gap-4">
+                        <!-- Dynamic Recommended Roles -->
+                    </div>
+                </div>
+
+                <!-- Next Action Step Recommendations -->
+                <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200/80 space-y-3">
+                    <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600"></i> Your Next MedStep Actions
+                    </h4>
+                    <ul id="action-steps-list" class="space-y-2 text-xs text-slate-600 list-disc list-inside">
+                        <!-- Dynamic Next Steps -->
+                    </ul>
+                </div>
+
+                <!-- Footer CTA Buttons -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4 border-t border-slate-100">
+                    <button onclick="restartQuiz()" class="w-full sm:w-auto px-6 py-3 border border-slate-300 rounded-xl text-slate-700 font-semibold text-xs hover:bg-slate-50 transition flex items-center justify-center gap-2">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Retake Quiz
+                    </button>
+                    <a href="index.html" class="w-full sm:w-auto px-6 py-3 bg-teal-600 text-white rounded-xl text-xs font-semibold hover:bg-teal-700 transition flex items-center justify-center gap-2 shadow-sm">
+                        <i data-lucide="grid" class="w-4 h-4"></i> Explore All Roles on MedStep Platform
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center text-xs text-slate-400 space-y-2">
+            <p class="font-bold text-slate-700 text-sm">MedStep — Helping you take your first step into the medical field.</p>
+            <p>Designed for fast-track healthcare career discovery, planning, and workforce entry in 2 years or less.</p>
+            <p class="pt-2">&copy; MedStep. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Quiz Questions Data Structure
+        const quizQuestions = [
+            {
+                id: 1,
+                title: "Daily Work Focus",
+                question: "When you imagine working in a hospital or clinic, which scenario excites you more?",
+                options: [
+                    {
+                        text: "Spending time directly with patients—listening to their concerns, checking vital signs, and comforting them.",
+                        type: "patient",
+                        points: 2
+                    },
+                    {
+                        text: "Operating advanced diagnostic scanners, imaging units, or lab analysis equipment in a focused setting.",
+                        type: "tech",
+                        points: 2
+                    },
+                    {
+                        text: "A 50/50 mix—I like interacting with patients briefly while carrying out quick diagnostic procedures.",
+                        type: "balanced",
+                        points: 1
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "Comfort & Interaction",
+                question: "How do you feel about high-touch physical personal care (bathing, mobility support, long bedside interactions)?",
+                options: [
+                    {
+                        text: "Very comfortable—I derive deep fulfillment from hands-on nursing and personal support.",
+                        type: "patient",
+                        points: 2
+                    },
+                    {
+                        text: "I prefer focused, task-oriented procedures like applying X-ray equipment or running EKG leads.",
+                        type: "tech",
+                        points: 2
+                    },
+                    {
+                        text: "I prefer quick, routine physical contacts like blood draws or blood pressure checks.",
+                        type: "balanced",
+                        points: 1
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: "Problem Solving Style",
+                question: "What kind of daily clinical problem-solving appeals to you most?",
+                options: [
+                    {
+                        text: "Monitoring patient emotional well-being, symptoms, recovery progress, and bedside health changes.",
+                        type: "patient",
+                        points: 2
+                    },
+                    {
+                        text: "Capturing clear diagnostic images, analyzing computer telemetry prints, or validating lab results.",
+                        type: "tech",
+                        points: 2
+                    },
+                    {
+                        text: "Managing medical documentation, scribing chart notes, and organizing lab workflows.",
+                        type: "balanced",
+                        points: 1
+                    }
+                ]
+            },
+            {
+                id: 4,
+                title: "Work Environment Preference",
+                question: "Which work environment suits your ideal pace and focus?",
+                options: [
+                    {
+                        text: "Active hospital wards, emergency departments, or long-term nursing care centers.",
+                        type: "patient",
+                        points: 2
+                    },
+                    {
+                        text: "Specialized imaging suites, cardiovascular labs, CT/MRI rooms, or quiet diagnostic testing areas.",
+                        type: "tech",
+                        points: 2
+                    },
+                    {
+                        text: "Outpatient medical clinics or doctor offices with scheduled day-shift appointments.",
+                        type: "balanced",
+                        points: 1
+                    }
+                ]
+            },
+            {
+                id: 5,
+                title: "Future Advancement Goals",
+                question: "Looking ahead 3 to 5 years into your career, what direction appeals to you?",
+                options: [
+                    {
+                        text: "Advancing into Registered Nursing (RN), Nurse Practitioner, or Clinical Management.",
+                        type: "patient",
+                        points: 2
+                    },
+                    {
+                        text: "Specializing in advanced imaging modalities (CT, MRI, Echo, Cardiac Catheterization).",
+                        type: "tech",
+                        points: 2
+                    },
+                    {
+                        text: "Expanding into Medical Office Administration, Lead Tech roles, or Physician Assistant pathways.",
+                        type: "balanced",
+                        points: 1
+                    }
+                ]
+            }
+        ];
+
+        // Recommended Roles Database based on Quiz Outcome
+        const roleRecommendations = {
+            patient: [
+                {
+                    title: "Registered Nurse (ADN / RN)",
+                    time: "2 Years (Degree)",
+                    salary: "$78,000 - $98,000",
+                    desc: "Coordinate acute hospital care, administer treatments, and advocate for bedside patients across all clinical units.",
+                    tag: "Direct Patient Care"
+                },
+                {
+                    title: "Certified Nursing Assistant (CNA) / PCT",
+                    time: "4 - 12 Weeks",
+                    salary: "$35,000 - $48,000",
+                    desc: "Provide foundational bedside assistance, record vital signs, and deliver hands-on patient comfort.",
+                    tag: "Direct Patient Care"
+                },
+                {
+                    title: "Licensed Practical Nurse (LPN)",
+                    time: "12 Months",
+                    salary: "$50,000 - $62,000",
+                    desc: "Deliver routine direct nursing care, administer medications, and lead assistant teams.",
+                    tag: "Direct Patient Care"
+                }
+            ],
+            tech: [
+                {
+                    title: "Diagnostic Medical Sonographer (Ultrasound Tech)",
+                    time: "18 - 24 Months",
+                    salary: "$78,000 - $100,000",
+                    desc: "Operate high-frequency acoustic soundwave equipment to produce internal organ & vascular diagnostic images.",
+                    tag: "Diagnostic & Tech"
+                },
+                {
+                    title: "Radiologic Technologist (X-Ray / CT Tech)",
+                    time: "2 Years (Degree)",
+                    salary: "$65,000 - $84,000",
+                    desc: "Operate radiation imaging equipment to capture detailed skeletal and anatomical diagnostic scans.",
+                    tag: "Diagnostic & Tech"
+                },
+                {
+                    title: "EKG & Telemetry Technician",
+                    time: "4 - 8 Weeks",
+                    salary: "$42,000 - $54,000",
+                    desc: "Conduct 12-lead EKG tests and continuously monitor hospital heart rhythms for critical changes.",
+                    tag: "Diagnostic & Tech"
+                }
+            ],
+            balanced: [
+                {
+                    title: "Medical Assistant (MA)",
+                    time: "4 - 12 Months",
+                    salary: "$40,000 - $50,000",
+                    desc: "Balance clinical patient intake and vitals with administrative scheduling and referrals in outpatient clinics.",
+                    tag: "Hybrid Clinical / Admin"
+                },
+                {
+                    title: "Phlebotomist",
+                    time: "1 - 3 Months",
+                    salary: "$38,000 - $47,000",
+                    desc: "Specialize in precise venipuncture blood specimen collection for diagnostic testing.",
+                    tag: "Lab & Diagnostic"
+                },
+                {
+                    title: "Medical Scribe",
+                    time: "1 - 3 Months",
+                    salary: "$32,000 - $40,000",
+                    desc: "Accompany doctors during patient exams to document encounters in real time inside electronic records.",
+                    tag: "Clinical Support"
+                }
+            ]
+        };
+
+        // State Tracking
+        let currentQuestionIndex = 0;
+        let scores = {
+            patient: 0,
+            tech: 0,
+            balanced: 0
+        };
+
+        function renderQuestion() {
+            const q = quizQuestions[currentQuestionIndex];
+            const container = document.getElementById('question-card');
+
+            // Update Progress Bar & Labels
+            const stepNum = currentQuestionIndex + 1;
+            const pct = Math.round((stepNum / quizQuestions.length) * 100);
+            
+            document.getElementById('quiz-step-label').innerText = `Question ${stepNum} of ${quizQuestions.length}`;
+            document.getElementById('quiz-percent-label').innerText = `${pct}% Complete`;
+            document.getElementById('quiz-progress-bar').style.width = `${pct}%`;
+
+            // Render Question HTML
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <div class="inline-block px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold rounded-lg uppercase tracking-wider">
+                        ${q.title}
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-bold text-slate-900 leading-snug">
+                        ${q.question}
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3.5 pt-2">
+                    ${q.options.map((opt, idx) => `
+                        <button onclick="handleOptionSelect('${opt.type}', ${opt.points})" 
+                                class="w-full text-left p-5 rounded-2xl border border-slate-200/90 hover:border-teal-500 hover:bg-teal-50/50 hover:shadow-sm transition-all duration-200 flex items-start gap-4 group">
+                            <div class="w-6 h-6 rounded-full border border-slate-300 group-hover:border-teal-600 group-hover:bg-teal-600 text-white flex items-center justify-center shrink-0 mt-0.5 transition">
+                                <i data-lucide="check" class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition"></i>
+                            </div>
+                            <span class="text-sm sm:text-base font-medium text-slate-700 group-hover:text-slate-900 leading-relaxed">
+                                ${opt.text}
+                            </span>
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+
+            lucide.createIcons();
+        }
+
+        function handleOptionSelect(type, points) {
+            scores[type] += points;
+
+            if (currentQuestionIndex < quizQuestions.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quiz-progress-section').classList.add('hidden');
+            document.getElementById('question-card').classList.add('hidden');
+            document.getElementById('results-card').classList.remove('hidden');
+
+            // Determine Top Focus Winner
+            let winner = 'patient';
+            if (scores.tech > scores.patient && scores.tech >= scores.balanced) {
+                winner = 'tech';
+            } else if (scores.balanced > scores.patient && scores.balanced > scores.tech) {
+                winner = 'balanced';
+            }
+
+            const headerContainer = document.getElementById('result-header');
+            const rolesContainer = document.getElementById('recommended-roles-list');
+            const actionsContainer = document.getElementById('action-steps-list');
+
+            if (winner === 'patient') {
+                headerContainer.className = "p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-teal-500 to-ocean-700 text-white text-center space-y-3 shadow-md";
+                headerContainer.innerHTML = `
+                    <div class="inline-flex p-3 bg-white/20 backdrop-blur-md rounded-2xl mb-1 text-white">
+                        <i data-lucide="heart-handshake" class="w-8 h-8"></i>
+                    </div>
+                    <span class="block text-xs uppercase tracking-widest font-bold text-teal-200">Primary Career Pathway</span>
+                    <h2 class="text-2xl sm:text-3xl font-black">Direct Patient Care Focus</h2>
+                    <p class="text-xs sm:text-sm text-teal-50 max-w-xl mx-auto leading-relaxed">
+                        You thrive on human connection, direct bedside interaction, and personal caregiving. You find fulfillment in supporting patient recovery and comfort directly.
+                    </p>
+                `;
+
+                actionsContainer.innerHTML = `
+                    <li>Explore short CNA/PCT courses (4–12 weeks) to test hospital clinical floor environments quickly.</li>
+                    <li>Research 2-year Associate Degree in Nursing (ADN) programs for high immediate salary potential.</li>
+                    <li>Ensure CPR / Basic Life Support (BLS) certification is completed prior to program application.</li>
+                `;
+            } else if (winner === 'tech') {
+                headerContainer.className = "p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-slate-900 via-ocean-700 to-slate-900 text-white text-center space-y-3 shadow-md";
+                headerContainer.innerHTML = `
+                    <div class="inline-flex p-3 bg-white/10 backdrop-blur-md rounded-2xl mb-1 text-teal-300">
+                        <i data-lucide="cpu" class="w-8 h-8"></i>
+                    </div>
+                    <span class="block text-xs uppercase tracking-widest font-bold text-teal-300">Primary Career Pathway</span>
+                    <h2 class="text-2xl sm:text-3xl font-black">Medical Technology & Diagnostics Focus</h2>
+                    <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
+                        You excel in technical precision, diagnostic data, and operating sophisticated medical machinery. You prefer targeted, procedure-driven interactions over prolonged bedside care.
+                    </p>
+                `;
+
+                actionsContainer.innerHTML = `
+                    <li>Compare Diagnostic Sonography (Ultrasound) and Radiologic Technology (X-Ray) associate degree programs.</li>
+                    <li>Consider short-term certificate pathways like EKG/Telemetry Technician for immediate hospital tech entry.</li>
+                    <li>Review high school or college prerequisite courses in Anatomy, Physics, and Biology.</li>
+                `;
+            } else {
+                headerContainer.className = "p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-ocean-600 to-teal-700 text-white text-center space-y-3 shadow-md";
+                headerContainer.innerHTML = `
+                    <div class="inline-flex p-3 bg-white/20 backdrop-blur-md rounded-2xl mb-1 text-white">
+                        <i data-lucide="scale" class="w-8 h-8"></i>
+                    </div>
+                    <span class="block text-xs uppercase tracking-widest font-bold text-teal-100">Primary Career Pathway</span>
+                    <h2 class="text-2xl sm:text-3xl font-black">Hybrid Patient & Clinic Specialist</h2>
+                    <p class="text-xs sm:text-sm text-teal-50 max-w-xl mx-auto leading-relaxed">
+                        You enjoy a balanced mix! You appreciate fast patient interactions paired with administrative efficiency, blood draws, or medical chart documentation.
+                    </p>
+                `;
+
+                actionsContainer.innerHTML = `
+                    <li>Investigate Medical Assistant (MA) certification programs (4–12 months) for balanced clinic schedules.</li>
+                    <li>Explore Phlebotomist certificate options (1–3 months) for focused technical lab specimen collection.</li>
+                    <li>Look into Medical Scribing to gain direct physician shadowing and electronic health records expertise.</li>
+                `;
+            }
+
+            // Render Roles
+            const roles = roleRecommendations[winner];
+            rolesContainer.innerHTML = roles.map(role => `
+                <div class="p-5 bg-white rounded-2xl border border-slate-200/90 hover:border-teal-400 hover:shadow-md transition flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div class="space-y-1.5">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-teal-700 bg-teal-50 px-2.5 py-0.5 rounded border border-teal-100">
+                                ${role.tag}
+                            </span>
+                            <span class="text-xs text-slate-400 font-medium flex items-center gap-1">
+                                <i data-lucide="clock" class="w-3.5 h-3.5"></i> ${role.time}
+                            </span>
+                        </div>
+                        <h4 class="text-lg font-bold text-slate-900">${role.title}</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed max-w-xl">${role.desc}</p>
+                    </div>
+                    <div class="sm:text-right shrink-0 pt-2 sm:pt-0 border-t sm:border-0 border-slate-100">
+                        <span class="block text-[10px] text-slate-400 uppercase font-bold">Est. Pay</span>
+                        <span class="text-sm font-bold text-emerald-600">${role.salary}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            scores = { patient: 0, tech: 0, balanced: 0 };
+            document.getElementById('quiz-progress-section').classList.remove('hidden');
+            document.getElementById('question-card').classList.remove('hidden');
+            document.getElementById('results-card').classList.add('hidden');
+            renderQuestion();
+        }
+
+        // Initialize Quiz on Load
+        window.onload = function() {
+            renderQuestion();
+            lucide.createIcons();
+        };
+    </script>
+</body>
+</html>
